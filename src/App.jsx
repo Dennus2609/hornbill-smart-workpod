@@ -55,25 +55,53 @@ function App() {
   const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
-    let done = false
-    const finish = () => { if (!done) { done = true; setIsReady(true) } }
+    let cancelled = false
 
-    const onLoad = () => {
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(finish).catch(finish)
-      } else {
-        finish()
+    const onWindowLoad = new Promise((resolve) => {
+      if (document.readyState === 'complete') resolve()
+      else window.addEventListener('load', () => resolve(), { once: true })
+    })
+
+    const onFonts = (document.fonts && document.fonts.ready) ? document.fonts.ready.catch(() => {}) : Promise.resolve()
+
+    const heroPoster = new Promise((resolve) => {
+      const img = new Image()
+      img.src = '/images/smartworkpod-hero-desktop.jpg'
+      if (img.complete) resolve()
+      else {
+        img.onload = () => resolve()
+        img.onerror = () => resolve()
       }
-    }
+    })
 
-    if (document.readyState === 'complete') onLoad()
-    else window.addEventListener('load', onLoad, { once: true })
-    const timeout = setTimeout(finish, 6000)
-    return () => { window.removeEventListener('load', onLoad); clearTimeout(timeout) }
+    const heroVideoMeta = new Promise((resolve) => {
+      try {
+        const v = document.createElement('video')
+        v.preload = 'metadata'
+        v.muted = true
+        v.src = '/images/WhatsApp Video 2025-09-08 at 6.21.18 AM.mp4'
+        const done = () => resolve()
+        v.addEventListener('loadeddata', done, { once: true })
+        v.addEventListener('error', done, { once: true })
+        v.load()
+      } catch {
+        resolve()
+      }
+    })
+
+    const minimumShow = new Promise((r) => setTimeout(r, 500))
+    const hardTimeout = new Promise((r) => setTimeout(r, 9000))
+
+    Promise.race([
+      Promise.all([minimumShow, onWindowLoad, onFonts, heroPoster, heroVideoMeta]),
+      hardTimeout
+    ]).then(() => { if (!cancelled) setIsReady(true) })
+
+    return () => { cancelled = true }
   }, [])
 
   return (
-    <div className="App">
+    <div className="App" style={{ opacity: isReady ? 1 : 0, transition: 'opacity 400ms ease' }}>
       {!isReady && <Preloader />}
       <Routes>
         <Route path="/" element={<HomePage />} />
