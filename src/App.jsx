@@ -11,9 +11,12 @@ import PressPage from './pages/Press'
 import NewsroomPage from './pages/Newsroom'
 import PrivacyPage from './pages/Privacy'
 
-function Preloader() {
+function Preloader({ fadeOut = false }) {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-white">
+    <div
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-white"
+      style={{ opacity: fadeOut ? 0 : 1, transition: 'opacity 350ms ease' }}
+    >
       <div className="relative">
         {/* Thin gradient stroke ring */}
         <svg
@@ -53,6 +56,7 @@ function Preloader() {
 
 function App() {
   const [isReady, setIsReady] = useState(false)
+  const [hidePreloader, setHidePreloader] = useState(false)
 
   useEffect(() => {
     let cancelled = false
@@ -74,6 +78,27 @@ function App() {
       }
     })
 
+    const preloadImage = (src) => new Promise((resolve) => {
+      const i = new Image()
+      i.src = src
+      if (i.complete) resolve()
+      else {
+        i.onload = () => resolve()
+        i.onerror = () => resolve()
+      }
+    })
+
+    // Preload Book page hero/carousel images as requested
+    const bookImages = [
+      '/images/ChatGPT Image Aug 15, 2025, 02_02_29 PM.png',
+      '/images/Generated Image September 12, 2025 - 8_19AM (1).png',
+      '/images/ChatGPT Image Aug 15, 2025, 02_01_40 PM.png',
+      '/images/h6.HEIC',
+      '/images/HORNBILL-LOGO.png'
+    ]
+
+    const bookPreloads = Promise.all(bookImages.map(preloadImage))
+
     const heroVideoMeta = new Promise((resolve) => {
       try {
         const v = document.createElement('video')
@@ -90,19 +115,25 @@ function App() {
     })
 
     const minimumShow = new Promise((r) => setTimeout(r, 500))
-    const hardTimeout = new Promise((r) => setTimeout(r, 9000))
+    const hardTimeout = new Promise((r) => setTimeout(r, 10000))
 
     Promise.race([
-      Promise.all([minimumShow, onWindowLoad, onFonts, heroPoster, heroVideoMeta]),
+      Promise.all([minimumShow, onWindowLoad, onFonts, heroPoster, heroVideoMeta, bookPreloads]),
       hardTimeout
     ]).then(() => { if (!cancelled) setIsReady(true) })
 
     return () => { cancelled = true }
   }, [])
 
+  useEffect(() => {
+    if (!isReady) return
+    const t = setTimeout(() => setHidePreloader(true), 600)
+    return () => clearTimeout(t)
+  }, [isReady])
+
   return (
     <div className="App" style={{ opacity: isReady ? 1 : 0, transition: 'opacity 400ms ease' }}>
-      {!isReady && <Preloader />}
+      {!hidePreloader && <Preloader fadeOut={isReady} />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<About />} />
