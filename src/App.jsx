@@ -132,21 +132,23 @@ function App() {
   }, [isReady])
 
   return (
-    <div className="App" style={{ opacity: isReady ? 1 : 0, transition: 'opacity 400ms ease' }}>
+    <>
       {!hidePreloader && <Preloader fadeOut={isReady} />}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/book" element={<BookPage />} />
-        <Route path="/terms" element={<TermsPage />} />
-        <Route path="/press" element={<PressPage />} />
-        <Route path="/newsroom" element={<NewsroomPage />} />
-        <Route path="/privacy" element={<PrivacyPage />} />
-      </Routes>
-    </div>
+      <div className="App" style={{ opacity: isReady ? 1 : 0, transition: 'opacity 400ms ease' }}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/book" element={<BookPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/press" element={<PressPage />} />
+          <Route path="/newsroom" element={<NewsroomPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+        </Routes>
+      </div>
+    </>
   )
 }
 
