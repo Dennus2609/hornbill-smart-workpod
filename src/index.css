@@ -1,0 +1,329 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Inter+Display:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'General Sans', 'Inter', system-ui, sans-serif;
+    @apply bg-black text-white;
+  }
+  
+  body {
+    font-family: 'General Sans', 'Inter', system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'General Sans', 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+  }
+  .figma-text {
+    font-family: 'General Sans', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    font-feature-settings: 'liga' off;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 shadow-lg hover:shadow-xl;
+  }
+  
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-primary-600 font-semibold py-3 px-6 rounded-lg border-2 border-primary-600 transition-colors duration-200;
+  }
+  
+  .section-padding {
+    @apply py-16 lg:py-24;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .scroll-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Smooth scroll sections */
+  .scroll-section {
+    will-change: transform;
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Custom background for second page */
+  .bg-gray-25 {
+    background-color: #fafafa;
+  }
+
+  /* Hide scrollbars for carousel */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Enhanced card performance */
+  .card-ultra-smooth {
+    transition: all 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout style paint;
+  }
+
+  .card-ultra-smooth:hover {
+    transform: translateZ(0) scale(1.015) !important;
+  }
+
+  .card-image-smooth {
+    transition: transform 1.8s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+    will-change: transform;
+    contain: layout style paint;
+  }
+
+  .card-image-smooth:hover {
+    transform: scale(1.08) !important;
+  }
+
+  .card-content-smooth {
+    transition: all 1.2s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+    contain: layout style paint;
+  }
+
+  .card-content-smooth:hover {
+    transform: translateY(-6px) !important;
+  }
+
+  .card-overlay-smooth {
+    transition: all 1.5s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+    contain: layout style paint;
+  }
+
+    /* ✅ New square white button */
+    .btn-square-white {
+      @apply inline-flex items-center justify-center
+             bg-white text-black
+             px-6 py-3
+             rounded-md
+             text-[15px] font-medium
+             transition-colors duration-200
+             shadow-md;
+    }
+    .btn-square-white:hover {
+      @apply shadow-lg bg-gray-50;
+    }
+    .btn-square-white:active {
+      @apply translate-y-[1px];
+    }
+
+  /* Ultra-smooth scroll container - optimized for sliding */
+  .scroll-container-smooth {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: none; /* Remove snap for smooth sliding */
+    overflow-x: auto;
+    overflow-y: hidden;
+    will-change: scroll-position;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    scroll-behavior: auto; /* Let JavaScript handle the smoothness */
+  }
+
+  .scroll-container-smooth::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Card styling optimized for sliding animations */
+  .card-ultra-smooth {
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout style paint;
+    position: relative;
+    transition: none !important;
+    scroll-snap-align: none; /* Remove individual snap points */
+  }
+
+  .card-ultra-smooth:hover {
+    transform: translateZ(0) scale(1.02) translateY(-4px) !important;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    box-shadow: 
+      0 30px 60px -12px rgba(0, 0, 0, 0.7), 
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      0 0 40px rgba(255, 165, 0, 0.1) !important;
+  }
+
+  /* Simplified image animations */
+  .card-image-smooth {
+    will-change: transform;
+    transform: translateZ(0);
+    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  }
+
+  .card-image-smooth:hover {
+    transform: scale(1.05) !important;
+  }
+
+  /* Simplified content animations */
+  .card-content-smooth {
+    will-change: transform;
+    transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  }
+
+  .card-content-smooth:hover {
+    transform: translateY(-2px) !important;
+  }
+
+  /* Simplified overlay animations */
+  .card-overlay-smooth {
+    will-change: opacity;
+    transition: opacity 0.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+  }
+
+  /* Premium Opal-style typography with Figma sizing */
+  .figma-text {
+    font-family: 'General Sans', 'Inter', system-ui, sans-serif;
+    font-weight: 400; /* Regular weight like Opal */
+    letter-spacing: -0.01em; /* Tight, premium letter spacing */
+    line-height: 1.1; /* Tight line height like Opal */
+    color: #000000; /* Black color for opacity animation */
+    transition: opacity 0.3s ease-out; /* Smooth transition */
+    
+    /* Mobile: 375px ≈ 12.5% of 3000px → 84px * 0.125 = 10.5px (min 28px) */
+    font-size: 28px;
+    
+    /* Tablet: 768px ≈ 25.6% of 3000px → 84px * 0.256 = 21.5px */
+    @media (min-width: 768px) {
+      font-size: 32px;
+    }
+    
+    /* Laptop: 1024px ≈ 34.1% of 3000px → 84px * 0.341 = 28.6px */
+    @media (min-width: 1024px) {
+      font-size: 36px;
+    }
+    
+    /* Desktop: 1440px ≈ 48% of 3000px → 84px * 0.48 = 40.3px */
+    @media (min-width: 1440px) {
+      font-size: 40px;
+    }
+    
+    /* Large Desktop: 1920px ≈ 64% of 3000px → 84px * 0.64 = 53.8px */
+    @media (min-width: 1920px) {
+      font-size: 54px;
+    }
+    
+    /* Extra Large: 2560px ≈ 85.3% of 3000px → 84px * 0.853 = 71.7px */
+    @media (min-width: 2560px) {
+      font-size: 72px;
+    }
+  }
+
+  /* Off-white background used for AR section wrapper */
+  .bg-offwhite-f2f0ee {
+    background-color: #F2F0EE;
+  }
+
+  /* Subtle dot grid pattern on dark grey block */
+  .dark-dot-grid {
+    background-color: #1F1F1F;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.10) 1.2px, rgba(0,0,0,0) 1.2px),
+      radial-gradient(rgba(255,255,255,0.06) 1.2px, rgba(0,0,0,0) 1.2px),
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,0.04), rgba(0,0,0,0) 50%);
+    background-size: 14px 14px, 14px 14px, 100% 100%;
+    background-position: 0 0, 7px 7px, center;
+  }
+
+  /* Soft vignette overlay helper */
+  .soft-vignette:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(120% 100% at 100% 0%, rgba(0,0,0,0.22), transparent 45%),
+                radial-gradient(120% 100% at 0% 100%, rgba(0,0,0,0.18), transparent 40%);
+  }
+
+  /* Apple-style success animation helpers */
+  .success-hero {
+    @apply flex flex-col items-center justify-center text-center;
+  }
+  .success-check-circle {
+    @apply inline-flex items-center justify-center rounded-full bg-black/5;
+    width: 88px; height: 88px;
+    animation: circlePulse 1200ms ease-out 120ms both;
+  }
+  .success-check-path {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: checkDraw 700ms ease-out forwards;
+  }
+}
+
+/* Gemini-style moving gradient border animation */
+@keyframes movingGradient {
+  0% { background-position: 200% 0; }
+  25% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+  75% { background-position: -100% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.gemini-border-container {
+  padding: 2px;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, transparent 20%, rgba(255, 69, 0, 0.9) 35%, rgba(255, 140, 0, 0.95) 50%, rgba(255, 215, 0, 0.9) 65%, rgba(255, 69, 0, 0.9) 80%, transparent);
+  background-size: 200% 100%;
+  animation: movingGradient 8s infinite ease-in-out;
+  position: relative;
+  display: inline-block;
+  will-change: background-position;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.gemini-border-container a,
+.gemini-border-container button {
+  border-radius: 9999px;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+}
+
+/* Floating animation for background orbs */
+@keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px) scale(1);} 25% { transform: translateY(-20px) translateX(10px) scale(1.05);} 50% { transform: translateY(-40px) translateX(-5px) scale(0.95);} 75% { transform: translateY(-20px) translateX(-10px) scale(1.02);} }
+@keyframes slideInFromRight { 0% { opacity: 0; transform: translateX(50px);} 100% { opacity: 1; transform: translateX(0);} }
+@keyframes slideInFromBottom { 0% { opacity: 0; transform: translateY(30px);} 100% { opacity: 1; transform: translateY(0);} }
+
+/* Enhanced card hover effects - SIMPLIFIED */
+.card-ultra-smooth { transition: box-shadow 0.3s ease-out; border-radius: 24px; overflow: hidden; position: relative; }
+.card-ultra-smooth:hover { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); }
+.card-image-smooth { transition: transform 0.5s ease-out; }
+.card-image-smooth:hover { transform: scale(1.05); }
+.card-content-smooth { transition: transform 0.3s ease-out; }
+.card-content-smooth:hover { transform: translateY(-4px); }
+.card-overlay-smooth { transition: opacity 0.3s ease-out; }
+
+/* New success animations */
+@keyframes checkDraw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes circlePulse {
+  0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(0,0,0,0.12); }
+  70% { transform: scale(1); box-shadow: 0 0 0 12px rgba(0,0,0,0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0,0,0,0); }
+} 
+
+@keyframes checkDraw{to{stroke-dashoffset:0}} 
+@keyframes pulseRing{0%{box-shadow:0 0 0 0 rgba(0,0,0,0.12)}70%{box-shadow:0 0 0 18px rgba(0,0,0,0)}100%{box-shadow:0 0 0 0 rgba(0,0,0,0)}} 
