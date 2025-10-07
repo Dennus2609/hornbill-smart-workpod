@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import Footer from '../components/Footer'
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react'
-import { ChevronLeft, ChevronRight, Home as HomeIcon, Move, VolumeX, Radio, Plus, Minus } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home as HomeIcon, Move, VolumeX, Radio, Plus, Minus, ChevronDown, ChevronUp } from 'lucide-react'
 
 const HomePage = () => {
 	// Motion preferences
@@ -21,6 +21,34 @@ const HomePage = () => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
 	const heroRef = useRef(null)
 	const [heroParallax, setHeroParallax] = useState(0)
+
+	// Choose mobile-specific hero video on small screens
+	const [isMobileViewport, setIsMobileViewport] = useState(() => {
+		try {
+			return window.matchMedia('(max-width: 639px)').matches
+		} catch {
+			return false
+		}
+	})
+	const heroVideoSrc = isMobileViewport
+		? '/images/HornBill_Shot_01_Mobile_V03.mp4'
+		: '/images/WhatsApp Video 2025-09-08 at 6.21.18 AM.mp4'
+
+	useEffect(() => {
+		try {
+			const mq = window.matchMedia('(max-width: 639px)')
+			const handler = (e) => setIsMobileViewport(e.matches)
+			mq.addEventListener?.('change', handler)
+			return () => mq.removeEventListener?.('change', handler)
+		} catch {}
+	}, [])
+
+	// When the source changes, reset fade-in and reload the video
+	useEffect(() => {
+		setIsVideoLoaded(false)
+		const v = videoRef.current
+		try { v?.load?.() } catch {}
+	}, [heroVideoSrc])
 
 	// Pause/resume hero video when off-screen
 	useEffect(() => {
@@ -132,7 +160,6 @@ const HomePage = () => {
 	}, [])
 
 	const stickySectionRef = useRef(null)
-	const [activeChapterIndex, setActiveChapterIndex] = useState(0)
 	const [isChaptersVisible, setIsChaptersVisible] = useState(false);
 	const [isARVisible, setIsARVisible] = useState(false);
 	
@@ -155,6 +182,36 @@ const HomePage = () => {
 	const mobileStickyBtnRef = useRef(null);
 	const mobileStickyWrapRef = useRef(null);
 	const [ctaGlow, setCtaGlow] = useState(1);
+	// Desktop: once final CTA is fully visible, unstick header (switch from fixed to absolute)
+	const [headerIsUnstuck, setHeaderIsUnstuck] = useState(false)
+	useEffect(() => {
+		if (typeof window === 'undefined') return
+		if (window.innerWidth < 1024) return // desktop only
+		const el = finalCtaRef.current
+		if (!el) return
+		const ctaTop = (() => {
+			const rect = el.getBoundingClientRect()
+			return rect.top + window.scrollY
+		})()
+		const onScroll = () => {
+			const rect = el.getBoundingClientRect()
+			const viewportH = window.innerHeight || 1
+			const fullyVisible = rect.top >= 0 && rect.bottom <= viewportH
+			if (fullyVisible) {
+				setHeaderIsUnstuck(true)
+			} else if (window.scrollY < ctaTop - 10) {
+				// If user scrolls back above the start of CTA, re-enable sticking
+				setHeaderIsUnstuck(false)
+			}
+		}
+		onScroll()
+		window.addEventListener('scroll', onScroll, { passive: true })
+		window.addEventListener('resize', onScroll)
+		return () => {
+			window.removeEventListener('scroll', onScroll)
+			window.removeEventListener('resize', onScroll)
+		}
+	}, [])
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			([entry]) => setIsARVisible(entry.isIntersecting),
@@ -167,25 +224,7 @@ const HomePage = () => {
 		};
 	}, [])
 
-	useEffect(() => {
-		const section = stickySectionRef.current
-		if (!section) return
-		const onScroll = () => {
-			const rect = section.getBoundingClientRect()
-			const viewportH = window.innerHeight || 1
-			const totalScrollable = Math.max(1, rect.height - viewportH)
-			const progress = Math.max(0, Math.min(1, -rect.top / totalScrollable))
-			const nextIndex = Math.min(chapters.length - 1, Math.floor(progress * chapters.length))
-			setActiveChapterIndex(nextIndex)
-		}
-		onScroll()
-		window.addEventListener('scroll', onScroll, { passive: true })
-		window.addEventListener('resize', onScroll)
-		return () => {
-			window.removeEventListener('scroll', onScroll)
-			window.removeEventListener('resize', onScroll)
-		}
-	}, [chapters.length])
+	// Remove sticky progress-driven chapter switching; page 3 scrolls normally now
 
 	// Page 4 (Spotlight film) helpers
 	const spotlightVideoId = 'cBpGq-vDr2Y'
@@ -373,6 +412,9 @@ const HomePage = () => {
 		}
 	]
 
+	// FAQ: show only first five by default, allow expanding
+	const [showAllFaqs, setShowAllFaqs] = useState(false)
+
 	const [openFaqIndex, setOpenFaqIndex] = useState(4)
 	const toggleFaq = useCallback((index) => {
 		setOpenFaqIndex(prev => (prev === index ? -1 : index))
@@ -386,6 +428,13 @@ const HomePage = () => {
 			}, 60)
 		}
 	}, [])
+
+	// If user collapses the list, close any open item beyond the first five
+	useEffect(() => {
+		if (!showAllFaqs && openFaqIndex > 4) {
+			setOpenFaqIndex(-1)
+		}
+	}, [showAllFaqs, openFaqIndex])
 
 	// Page 9: specification list and equal-height layout
 	const specificationItems = [
@@ -945,7 +994,7 @@ const HomePage = () => {
       return (
 		<>
         {/* Top Bar */}
-        <header className="hidden sm:block fixed top-0 left-0 w-full z-50 py-4 md:py-6">
+        <header className={`hidden sm:block ${headerIsUnstuck ? 'absolute' : 'fixed'} top-0 left-0 w-full z-50 py-4 md:py-6`}>
           <div className="w-full px-8 sm:px-12 lg:px-16">
             <div className="flex items-center justify-between">
 						<button 
@@ -955,12 +1004,26 @@ const HomePage = () => {
 						>
 							Hornbill
 						</button>
-						<div className="bg-white rounded-lg inline-flex items-center justify-between shadow-lg px-1.5 py-1.5 sm:px-3 sm:py-3 max-w-full sm:min-w-[280px] sm:w-[clamp(280px,50vw,480px)]">
-							<div className="hidden sm:flex items-center gap-3">
-								<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-4 h-4 object-contain" />
-								<span className="text-gray-800 font-medium text-sm" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Hornbill</span>
+							<div
+								className={`${isChaptersVisible || isARVisible
+									? 'bg-white/85 border border-black/10 shadow-md'
+									: 'bg-white/10 border border-white/25 backdrop-blur-md shadow-lg'} rounded-full inline-flex items-center gap-2 sm:gap-3 px-2 sm:px-3 py-1.5`}
+								role="group"
+								aria-label="Brand and booking"
+							>
+								<div className="hidden sm:flex items-center gap-2">
+									<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-4 h-4 object-contain" />
+									<span className={`${isChaptersVisible || isARVisible ? 'text-black/80' : 'text-white/90'} font-medium text-sm`} style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Hornbill Smart Pod</span>
               </div>
-								<Link to="/book" className="hidden sm:block bg-black text-white px-4 md:px-6 py-2 rounded-lg text-sm font-medium transition-all duration-300 hover:bg-gray-800" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Book now</Link>
+								<span className={`${isChaptersVisible || isARVisible ? 'bg-black/10' : 'bg-white/20'} h-5 w-px mx-2 hidden sm:block`} aria-hidden="true" />
+								<Link
+									to="/book"
+									className={`hidden sm:inline-flex items-center justify-center rounded-full text-sm font-medium px-3.5 md:px-5 py-2 transition-all duration-300 focus:outline-none focus-visible:ring-2 bg-white text-black hover:bg-white/90 focus-visible:ring-black/20 border border-black/10`}
+									style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+									aria-label="Book a demo"
+								>
+									Book a demo
+								</Link>
               </div>
             </div>
           </div>
@@ -989,7 +1052,7 @@ const HomePage = () => {
         fontFamily: 'General Sans, Inter, system-ui, sans-serif'
       }}
     >
-      Book now
+      Book a demo
     </Link>
   </div>
 </div>
@@ -1014,7 +1077,7 @@ const HomePage = () => {
 			{/* Page 1: Hero */}
       <section ref={heroRef} className="w-full h-screen overflow-hidden relative" style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 600px' }}>
         <div className="absolute inset-0 w-full h-full" style={{ transform: reduceMotion ? 'none' : `translateY(${heroParallax * 12}px)`, transition: 'transform 80ms linear' }}>
-					<video ref={videoRef} src="/images/WhatsApp Video 2025-09-08 at 6.21.18 AM.mp4" poster="/images/smartworkpod-hero-desktop.jpg" preload="metadata" className={`w-full h-full object-cover object-center ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} style={{ transition: 'opacity 600ms ease-out' }} autoPlay muted playsInline onLoadedData={() => setIsVideoLoaded(true)} onCanPlay={() => setIsVideoLoaded(true)} />
+					<video ref={videoRef} src={heroVideoSrc} poster="/images/smartworkpod-hero-desktop.jpg" preload="metadata" className={`w-full h-full object-cover object-center ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} style={{ transition: 'opacity 600ms ease-out' }} autoPlay muted playsInline onLoadedData={() => setIsVideoLoaded(true)} onCanPlay={() => setIsVideoLoaded(true)} />
 					<div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
         </div>
           <div className="absolute inset-0 flex items-center justify-end pr-8 lg:pr-16 xl:pr-20">
@@ -1063,89 +1126,63 @@ const HomePage = () => {
         </div>
       </section>
 
-			{/* Page 3: Sticky Chapters Section */}
-			<section ref={stickySectionRef} className="relative bg-[#F2F0EE]" style={{ height: '300vh' }}>
-				<div className="sticky top-0 h-screen w-full flex items-center overflow-hidden">
-					<div className="w-full px-8 sm:px-12 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Left: Text stack */}
-							<div className="order-2 lg:order-1 grid">
-								{chapters.map((chapter, index) => (
-									<div 
-										key={chapter.badge} 
-										className="transition-all duration-1000 ease-in-out"
+			{/* Page 3: Chapters Section (normal scroll, full-screen per chapter) */}
+			<section ref={stickySectionRef} className="relative bg-[#F2F0EE]">
+				{chapters.map((chapter, index) => (
+					<div key={chapter.badge} className={`h-screen w-full flex items-center${index > 0 ? ' -mt-8 sm:-mt-12 lg:-mt-16' : ''}`}>
+						<div className="w-full px-8 sm:px-12 lg:px-16">
+							<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+								{/* Left: Text */}
+								<div className="order-2 lg:order-1">
+									<div className="mb-3">
+										<div
+											className="bg-[#C3C3C3] text-black rounded-full flex items-center justify-center"
+											style={{ 
+			                width: 'clamp(28px, 2.8vw, 40px)',
+			                height: 'clamp(28px, 2.8vw, 40px)',
+			                fontSize: 'clamp(14px, 1.2vw, 18px)',
+			                fontWeight: 600
+			              }}
+											aria-hidden="true"
+										>
+											{chapter.badge}
+										</div>
+									</div>
+									<h3
+										className="text-black font-medium leading-tight mb-3"
 										style={{ 
-											gridArea: '1 / 1',
-											visibility: index === activeChapterIndex ? 'visible' : 'hidden',
-											opacity: index === activeChapterIndex ? 1 : 0,
-											transform: `translateY(${(index - activeChapterIndex) * 30}px)`,
-											willChange: 'opacity, transform'
+											fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+											fontSize: 'clamp(28px, 3vw, 64px)'
 										}}
 									>
-              {/* Number Badge */}
-              <div className="mb-3">
-                <div
-                  className="bg-[#C3C3C3] text-black rounded-full flex items-center justify-center"
-        style={{ 
-                    width: 'clamp(28px, 2.8vw, 40px)',
-                    height: 'clamp(28px, 2.8vw, 40px)',
-                    fontSize: 'clamp(14px, 1.2vw, 18px)',
-                    fontWeight: 600
-                  }}
-                  aria-hidden="true"
-                >
-												{chapter.badge}
-              </div>
-            </div>
-            
-              {/* Title */}
-              <h3
-                className="text-black font-medium leading-tight mb-3"
-              style={{ 
-                  fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-                  fontSize: 'clamp(28px, 3vw, 64px)'
-                }}
-              >
-											{chapter.title}
-              </h3>
-
-              {/* Description */}
-              <p
-                className="text-[#555] leading-relaxed"
-                style={{
-                  fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-                  fontSize: 'clamp(16px, 1.2vw, 20px)',
-                  maxWidth: 'clamp(300px, 50ch, 560px)'
-                }}
-              >
-											{chapter.description}
-                  </p>
-									</div>
-								))}
-                </div>
-                
-            {/* Right: Image */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end items-center">
-								<div className="rounded-3xl overflow-hidden w-full max-w-[640px] aspect-square relative">
-									{chapters.map((chapter, index) => (
+										{chapter.title}
+									</h3>
+									<p
+										className="text-[#555] leading-relaxed"
+										style={{
+											fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+											fontSize: 'clamp(16px, 1.2vw, 20px)',
+											maxWidth: 'clamp(300px, 50ch, 560px)'
+										}}
+									>
+										{chapter.description}
+									</p>
+								</div>
+								{/* Right: Image */}
+								<div className="order-1 lg:order-2 flex justify-center lg:justify-end items-center">
+									<div className="rounded-3xl overflow-hidden w-full max-w-[640px] aspect-square relative">
 										<img
-											key={chapter.image}
 											src={chapter.image}
 											alt={chapter.alt}
-											className="w-full h-full object-cover absolute top-0 left-0"
-											style={{
-												transform: `translateY(${(index - activeChapterIndex) * 100}%) scale(${1 - Math.abs(index - activeChapterIndex) * 0.05})`,
-												transition: 'transform 1s ease-in-out',
-												willChange: 'transform'
-											}}
-                  loading="lazy"
-                />
-									))}
+											className="w-full h-full object-cover"
+											loading="lazy"
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				))}
 			</section>
 
 			{/* Page 4: Spotlight film */}
@@ -1153,14 +1190,13 @@ const HomePage = () => {
 				<div className="absolute inset-0 pointer-events-none">
 					<img src="/images/spotlight-bg.png" alt="Spotlight background" className="w-full h-full object-cover" />
 				</div>
-				<div className="relative w-full px-6 sm:px-10 lg:px-16 pt-[12vh] pb-10">
-					<div className="max-w-5xl mx-auto text-center mb-8" style={{ transform: reduceMotion ? 'none' : `translateY(${spotlightParallax * -0.5}px)`, transition: 'transform 80ms linear' }}>
+				<div className="relative w-full px-6 sm:px-10 lg:px-16 pt-[9vh] pb-10">
+						<div className="max-w-5xl mx-auto text-center mb-8" style={{ transform: reduceMotion ? 'none' : `translateY(${spotlightParallax * -0.5}px)`, transition: 'transform 80ms linear' }}>
 						<div className="inline-flex items-center gap-2 mb-5"><span className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-base font-medium">3</span><span className="text-base font-medium" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Spotlight</span></div>
 						<h2 className="font-medium leading-tight mb-3" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(28px, 4vw, 56px)', letterSpacing: '-0.01em' }}>The future of work, in one pod.</h2>
 						<p className="opacity-90" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(14px, 1.2vw, 18px)' }}>See how Hornbill SmartPod brings productivity, health, and design together</p>
-						<div className="mt-8"><a href={`https://www.youtube.com/watch?v=${spotlightVideoId}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full font-medium transition-transform duration-200" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Watch the Film <span aria-hidden>↗</span></a></div>
-						{/* Progress rail */}
-						<div className="mt-6 h-1 w-full bg-white/10 rounded-full overflow-hidden">
+							{/* Progress rail */}
+							<div className="mt-10 h-1 w-full bg-white/10 rounded-full overflow-hidden">
 							<div className="h-full bg-gradient-to-r from-white/60 via-white/70 to-white/60" style={{ width: `${Math.max(4, Math.min(100, spotlightProgress * 100))}%`, transition: 'width 120ms linear' }} />
 					</div>
 					</div>
@@ -1387,8 +1423,8 @@ const HomePage = () => {
 				</div>
 			</section>
 
-			{/* Page 10: AR Viewable block (as per Figma) */}
-			<section ref={arSectionRef} className="relative w-full bg-offwhite-f2f0ee py-20 sm:py-24 md:py-28 lg:py-32 xl:py-36" data-ar>
+			{/* Page 10: AR Viewable block (as per Figma) - Mobile only */}
+			<section ref={arSectionRef} className="relative w-full bg-offwhite-f2f0ee py-20 sm:py-24 md:py-28 lg:py-32 xl:py-36 lg:hidden" data-ar>
 				<div className="px-6 sm:px-10 lg:px-16 max-w-[1400px] mx-auto">
 					<div className="rounded-[22px] lg:rounded-[26px] dark-dot-grid text-white overflow-hidden" data-ar-card>
 						<div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center p-5 sm:p-6 lg:p-8">
@@ -1421,10 +1457,7 @@ const HomePage = () => {
 			</section>
 
 			{/* Page 11: FAQ */}
-			<section className="relative w-full text-white">
-				<div className="absolute inset-0 -z-10">
-					<img src="/images/fawbg.jpg" alt="FAQ background" className="w-full h-full object-cover"/>
-				</div>
+			<section className="relative w-full text-white" style={{ background: 'linear-gradient(135deg, #A1080E 0%, #E44008 41%, #000000 100%)' }}>
 				<div className="px-6 sm:px-10 lg:px-16 py-16 sm:py-20 lg:py-24 max-w-[1400px] mx-auto relative">
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 						{/* Left heading and intro */}
@@ -1451,8 +1484,8 @@ const HomePage = () => {
 						{/* Right accordion */}
 						<div className="lg:col-span-7">
 							<div className="border-t border-white/30">
-								<ul role="list">
-									{faqs.map((faq, index) => {
+								<ul role="list" id="faq-list">
+									{faqs.slice(0,5).map((faq, index) => {
 										const isOpen = openFaqIndex === index
 										return (
 											<li key={faq.title} className="">
@@ -1480,6 +1513,54 @@ const HomePage = () => {
 									)
 									})}
 								</ul>
+								{/* Collapsible container for remaining FAQs with premium animation */}
+								<div className={`grid transition-[grid-template-rows] duration-500 ease-out ${showAllFaqs ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`} aria-hidden={!showAllFaqs}>
+									<div className="overflow-hidden">
+										<ul role="list" className="pt-1">
+											{faqs.slice(5).map((faq, idx) => {
+												const index = idx + 5
+												const isOpen = openFaqIndex === index
+												return (
+													<li key={faq.title} className="">
+														<button
+															onClick={() => toggleFaq(index)}
+															className="w-full flex items-center justify-between gap-4 py-3 sm:py-4 text-left"
+															aria-expanded={isOpen}
+															aria-controls={`faq-panel-${index}`}
+														>
+															<div className="flex items-center gap-4">
+																<span className="inline-flex items-center justify-center w-7 h-7 rounded-full border border-white/40 text-xs font-medium">{index + 1}</span>
+																<span className={`text-[15px] sm:text-base md:text-lg ${isOpen ? 'font-semibold' : 'font-normal'}`}>{faq.title}</span>
+															</div>
+															<span className="shrink-0 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">{isOpen ? <Minus className="w-4 h-4"/> : <Plus className="w-4 h-4"/>}</span>
+														</button>
+														<div id={`faq-panel-${index}`} role="region" className={`grid transition-[grid-template-rows] duration-300 ease-out ${isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+															<div className="overflow-hidden">
+																<div className="pl-11 md:pl-12 pb-5 text-white/90 text-sm sm:text-base leading-relaxed">
+																	{faq.answer}
+																</div>
+															</div>
+														</div>
+														<hr className="border-white/30" />
+													</li>
+												)
+											})}
+										</ul>
+									</div>
+								</div>
+
+								{/* Minimal glassmorphic arrow toggle */}
+								<div className="flex justify-center mt-3 sm:mt-5">
+									<button
+										onClick={() => setShowAllFaqs(v => !v)}
+										className={`w-9 h-9 rounded-full backdrop-blur-md bg-white/10 border border-white/20 flex items-center justify-center transition-transform ${showAllFaqs ? 'rotate-180' : ''}`}
+										aria-expanded={showAllFaqs}
+										aria-controls="faq-list"
+										title={showAllFaqs ? 'Collapse' : 'Expand'}
+									>
+										<ChevronDown className="w-4 h-4 text-white"/>
+									</button>
+								</div>
 							</div>
 						</div>
 
@@ -1496,7 +1577,7 @@ const HomePage = () => {
 			</section>
 
 			{/* Final CTA Section */}
-			<section ref={finalCtaRef} className="relative w-full min-h-screen bg-black text-white overflow-hidden">
+			<section ref={finalCtaRef} className="relative isolate z-10 w-full min-h-screen bg-black text-white overflow-hidden">
 				<div className="absolute inset-0 pointer-events-none" aria-hidden="true">
 					<div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[#DD2C00] via-[#F26722] to-[#D81A00]" />
 				</div>
@@ -1546,7 +1627,7 @@ const HomePage = () => {
 								Your all-in-one smart workspace.
 							</p>
 							<Link to="/book" className="btn-square-white inline-flex">
-  Book now
+  Book a demo
 </Link>
 						</div>
 					</div>
