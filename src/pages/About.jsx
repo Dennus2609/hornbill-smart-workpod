@@ -239,13 +239,14 @@ const AboutPage = () => {
 			<header className={`hidden sm:block ${headerIsUnstuck ? 'absolute' : 'fixed'} top-0 left-0 w-full z-50 py-4 md:py-6`}>
 				<div className="w-full px-8 sm:px-12 lg:px-16">
 					<div className="flex items-center justify-between">
-						<button 
-							onClick={scrollToTop}
-							className={`text-xl sm:text-2xl md:text-3xl font-medium tracking-wide transition-all duration-300 hover:opacity-80 cursor-pointer ${isHeroVisible || isDarkSection ? 'text-white' : 'text-black'}`} 
+						<Link 
+							to="/"
+							className={`text-xl sm:text-2xl md:text-3xl font-medium tracking-wide transition-all duration-300 hover:opacity-80 ${isHeroVisible || isDarkSection ? 'text-white' : 'text-black'}`} 
 							style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+							aria-label="Go to Home"
 						>
 							Hornbill
-						</button>
+						</Link>
 						<div
 							className={`${isHeroVisible || isDarkSection
 								? 'bg-white/10 border border-white/25 backdrop-blur-md shadow-lg'
@@ -298,13 +299,14 @@ const AboutPage = () => {
 			{/* Mobile top bar */}
 			<div className="sm:hidden fixed top-0 inset-x-0 z-50" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 4px)' }}>
 				<div className="px-4 py-3 flex items-center justify-between">
-				<button 
-					onClick={scrollToTop}
-					className={`text-[1.4rem] font-medium hover:opacity-80 transition-all duration-300 cursor-pointer ${isHeroVisible || isDarkSection ? 'text-white' : 'text-black'}`} 
+				<Link 
+					to="/"
+					className={`text-[1.4rem] font-medium hover:opacity-80 transition-all duration-300 ${isHeroVisible || isDarkSection ? 'text-white' : 'text-black'}`} 
 					style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+					aria-label="Go to Home"
 				>
 					Hornbill
-				</button>
+				</Link>
 					<div className="w-7 h-7 flex items-center justify-center">
 						<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-full h-full object-contain" />
 					</div>

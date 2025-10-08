@@ -1158,8 +1158,43 @@ const HomePage = () => {
       </section>
 
 		{/* Page 3: Focus, Wellness, Elegance - Single View */}
-		<section ref={stickySectionRef} className="relative bg-[#F2F0EE] py-20 sm:py-28 lg:py-36">
-			<div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 w-full">
+		<section ref={stickySectionRef} className="relative bg-[#F2F0EE] py-12 sm:py-16 lg:py-20 overflow-hidden">
+			{/* Animated Subtle Dotted Background Pattern - Desktop Only */}
+			<div 
+				className="absolute inset-0 opacity-[0.12] pointer-events-none hidden lg:block"
+				style={{
+					backgroundImage: 'radial-gradient(circle, #000 1px, transparent 1px)',
+					backgroundSize: '40px 40px',
+					animation: 'subtle-drift 20s ease-in-out infinite'
+				}}
+			/>
+			
+			{/* Vertical Dotted Lines - Desktop Only */}
+			<div className="absolute left-24 sm:left-32 lg:left-40 top-0 bottom-0 w-px opacity-20 hidden lg:block"
+				style={{
+					backgroundImage: 'linear-gradient(to bottom, #000 40%, transparent 40%)',
+					backgroundSize: '1px 16px'
+				}}
+			/>
+			<div className="absolute right-24 sm:right-32 lg:right-40 top-0 bottom-0 w-px opacity-20 hidden lg:block"
+				style={{
+					backgroundImage: 'linear-gradient(to bottom, #000 40%, transparent 40%)',
+					backgroundSize: '1px 16px'
+				}}
+			/>
+			
+			{/* Top Horizontal Dotted Line - Desktop Only, Lower Position */}
+			<div className="absolute left-0 right-0 h-px opacity-20 hidden lg:block"
+				style={{
+					top: 'calc(6rem)',
+					backgroundImage: 'linear-gradient(to right, #000 40%, transparent 40%)',
+					backgroundSize: '16px 1px'
+				}}
+			/>
+			
+			<div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 w-full relative">
+				<div className="h-12 sm:h-16 lg:h-20" />
+				
 				{/* Central Header */}
 				<div className="text-center mb-16 sm:mb-20 lg:mb-24">
 					{/* Badge like Spotlight section */}
@@ -1214,7 +1249,7 @@ const HomePage = () => {
 									className="text-black font-normal mb-2"
 									style={{ 
 										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-										fontSize: 'clamp(16px, 1.4vw, 19px)',
+										fontSize: 'clamp(20px, 1.5vw, 22px)',
 										letterSpacing: '0.002em',
 										fontWeight: 500
 									}}
@@ -1236,7 +1271,18 @@ const HomePage = () => {
 						</div>
 					))}
 				</div>
+				
+				<div className="h-16 sm:h-20 lg:h-24" />
 			</div>
+			
+			{/* Bottom Horizontal Dotted Line - Desktop Only */}
+			<div className="absolute left-0 right-0 h-px opacity-20 hidden lg:block"
+				style={{
+					bottom: 'calc(6rem)',
+					backgroundImage: 'linear-gradient(to right, #000 40%, transparent 40%)',
+					backgroundSize: '16px 1px'
+				}}
+			/>
 		</section>
 
 			{/* Page 4: Spotlight film */}

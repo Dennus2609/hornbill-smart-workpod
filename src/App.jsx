@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
+import ScrollToTop from './components/ScrollToTop'
 import { useEffect, useState } from 'react'
 import HomePage from './pages/Home'
 import About from './pages/About'
@@ -135,6 +136,7 @@ function App() {
     <>
       {!hidePreloader && <Preloader fadeOut={isReady} />}
       <div className="App" style={{ opacity: isReady ? 1 : 0, transition: 'opacity 400ms ease' }}>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<About />} />
