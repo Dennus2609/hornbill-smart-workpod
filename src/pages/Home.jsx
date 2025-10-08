@@ -438,11 +438,42 @@ const HomePage = () => {
 
 	// Page 9: specification list and equal-height layout
 	const specificationItems = [
-		'Power Management System',
-		'USB-C Charging Hub',
-		'International Socket Block',
-		'Height Adjustment Touch Panel',
-		'Hornbill App for iOS + Android'
+		{
+			icon: (
+				<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+				</svg>
+			),
+			title: 'Dimensions',
+			value: 'L1000 x W850 x H1140 mm'
+		},
+		{
+			icon: (
+				<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+				</svg>
+			),
+			title: 'Weight',
+			value: '80 Kg'
+		},
+		{
+			icon: (
+				<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+				</svg>
+			),
+			title: 'Table top height adjustment',
+			value: '720-1060 mm'
+		},
+		{
+			icon: (
+				<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+				</svg>
+			),
+			title: 'Materials',
+			value: 'High-grade acoustic fabric, durable wood in veneer, laminate and polyurethane finishes. Rigid metal support framework. Heavy duty castor wheels with breaks.'
+		}
 	]
 	const specRightRef = useRef(null)
 	const [specEqualHeight, setSpecEqualHeight] = useState(0)
@@ -1126,64 +1157,87 @@ const HomePage = () => {
         </div>
       </section>
 
-			{/* Page 3: Chapters Section (normal scroll, full-screen per chapter) */}
-			<section ref={stickySectionRef} className="relative bg-[#F2F0EE]">
-				{chapters.map((chapter, index) => (
-					<div key={chapter.badge} className={`h-screen w-full flex items-center${index > 0 ? ' -mt-8 sm:-mt-12 lg:-mt-16' : ''}`}>
-						<div className="w-full px-8 sm:px-12 lg:px-16">
-							<div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-								{/* Left: Text */}
-								<div className="order-2 lg:order-1">
-									<div className="mb-3">
-										<div
-											className="bg-[#C3C3C3] text-black rounded-full flex items-center justify-center"
-											style={{ 
-			                width: 'clamp(28px, 2.8vw, 40px)',
-			                height: 'clamp(28px, 2.8vw, 40px)',
-			                fontSize: 'clamp(14px, 1.2vw, 18px)',
-			                fontWeight: 600
-			              }}
-											aria-hidden="true"
-										>
-											{chapter.badge}
-										</div>
-									</div>
-									<h3
-										className="text-black font-medium leading-tight mb-3"
-										style={{ 
-											fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-											fontSize: 'clamp(28px, 3vw, 64px)'
-										}}
-									>
-										{chapter.title}
-									</h3>
-									<p
-										className="text-[#555] leading-relaxed"
-										style={{
-											fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-											fontSize: 'clamp(16px, 1.2vw, 20px)',
-											maxWidth: 'clamp(300px, 50ch, 560px)'
-										}}
-									>
-										{chapter.description}
-									</p>
-								</div>
-								{/* Right: Image */}
-								<div className="order-1 lg:order-2 flex justify-center lg:justify-end items-center">
-									<div className="rounded-3xl overflow-hidden w-full max-w-[640px] aspect-square relative">
-										<img
-											src={chapter.image}
-											alt={chapter.alt}
-											className="w-full h-full object-cover"
-											loading="lazy"
-										/>
-									</div>
-								</div>
+		{/* Page 3: Focus, Wellness, Elegance - Single View */}
+		<section ref={stickySectionRef} className="relative bg-[#F2F0EE] py-20 sm:py-28 lg:py-36">
+			<div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 w-full">
+				{/* Central Header */}
+				<div className="text-center mb-16 sm:mb-20 lg:mb-24">
+					{/* Badge like Spotlight section */}
+					<div className="inline-flex items-center gap-2 mb-5">
+						<span className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-base font-medium text-black">2</span>
+						<span className="text-base font-medium text-black" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Foundation</span>
+					</div>
+					
+					<h2 
+						className="text-black font-medium leading-tight mb-4"
+						style={{ 
+							fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+							fontSize: 'clamp(32px, 4.5vw, 60px)',
+							letterSpacing: '-0.02em',
+							fontWeight: 500
+						}}
+					>
+						Designed for how you work best
+					</h2>
+					<p 
+						className="text-gray-700 leading-relaxed max-w-3xl mx-auto mb-12"
+						style={{
+							fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+							fontSize: 'clamp(15px, 1.2vw, 19px)',
+							fontWeight: 400
+						}}
+					>
+						Every element of the Hornbill Smart Workpod is thoughtfully crafted to support your focus, wellness, and style.
+					</p>
+					
+					{/* Full Length Divider Line */}
+					<div className="w-full h-px bg-gray-300 mx-auto" />
+				</div>
+
+				{/* Three Pillars - Side by Side */}
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
+					{chapters.map((chapter) => (
+						<div key={chapter.badge} className="group">
+							{/* Image - Taller */}
+							<div className="relative w-full aspect-[3/4] overflow-hidden rounded-3xl mb-5 transition-transform duration-300 group-hover:scale-[1.01]">
+								<img
+									src={chapter.image}
+									alt={chapter.alt}
+									className="w-full h-full object-cover"
+									loading="lazy"
+								/>
+							</div>
+							
+							{/* Content */}
+							<div>
+								<h3
+									className="text-black font-normal mb-2"
+									style={{ 
+										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+										fontSize: 'clamp(16px, 1.4vw, 19px)',
+										letterSpacing: '0.002em',
+										fontWeight: 500
+									}}
+								>
+									{chapter.title}.
+								</h3>
+								<p
+									className="text-gray-500 leading-relaxed font-light"
+									style={{
+										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+										fontSize: 'clamp(13px, 0.95vw, 15px)',
+										fontWeight: 300,
+										lineHeight: '1.6'
+									}}
+								>
+									{chapter.description}
+								</p>
 							</div>
 						</div>
-					</div>
-				))}
-			</section>
+					))}
+				</div>
+			</div>
+		</section>
 
 			{/* Page 4: Spotlight film */}
 			<section ref={spotlightRef} className="relative w-full min-h-screen bg-black text-white flex items-center">
@@ -1398,7 +1452,7 @@ const HomePage = () => {
 								<h2 className="text-white font-medium leading-[1.05]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(34px, 4vw, 48px)', letterSpacing: '-0.01em' }} data-spec-reveal>Everything you need to get your workspace ready.</h2>
 								<p className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl" data-spec-reveal>Includes 15+ features that support your productivity and comfort. Mobile control, wireless charging, workspace lighting, and more.</p>
 								<div className="gemini-border-container inline-block mt-1" data-spec-reveal>
-									<a href="https://www.youtube.com/watch?v=cBpGq-vDr2Y&ab_channel=MarquesBrownlee" target="_blank" rel="noopener noreferrer" className="relative text-white px-5 sm:px-6 py-3 rounded-full font-medium transition-all duration-300 bg-black z-10 inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white/40" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', boxShadow: '0 0 0 0 rgba(255,255,255,0)', transition: 'box-shadow 250ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 26px rgba(255,255,255,0.08)' }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 0 0 0 rgba(255,255,255,0)' }}>Download Specification sheet <span aria-hidden>↗</span></a>
+									<a href="/Hornbill specification sheet .pdf" download="Hornbill-Specification-Sheet.pdf" className="relative text-white px-5 sm:px-6 py-3 rounded-full font-medium transition-all duration-300 bg-black z-10 inline-flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-white/40" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', boxShadow: '0 0 0 0 rgba(255,255,255,0)', transition: 'box-shadow 250ms ease' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 26px rgba(255,255,255,0.08)' }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 0 0 0 rgba(255,255,255,0)' }}>Download Specification sheet <span aria-hidden>↗</span></a>
 								</div>
 							</div>
 
@@ -1409,14 +1463,41 @@ const HomePage = () => {
 								</div>
 							</div>
 
-							<hr className="border-white/20 border-t-2 my-2.5" />
-							<ul role="list" className="divide-y divide-white/15">
-								{specificationItems.map((item) => (
-									<li key={item} className="py-2.5" data-spec-item>
-										<span className="text-sm sm:text-base md:text-lg" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>{item}</span>
-									</li>
+						<hr className="border-white/20 my-6" />
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8" role="list">
+							{/* Left column - 3 specs */}
+							<div className="space-y-6">
+								{specificationItems.slice(0, 3).map((item, index) => (
+									<div key={index} className="flex gap-3" data-spec-item>
+										<div className="flex-shrink-0 w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/60">
+											{item.icon}
+										</div>
+										<div className="flex-1">
+											<h3 className="text-white text-sm font-normal mb-1.5" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontWeight: 400 }}>
+												{item.title}
+											</h3>
+											<p className="text-white/60 text-sm leading-relaxed font-light" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontWeight: 300 }}>
+												{item.value}
+											</p>
+										</div>
+									</div>
 								))}
-							</ul>
+							</div>
+							{/* Right column - Materials */}
+							<div className="flex gap-3" data-spec-item>
+								<div className="flex-shrink-0 w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-white/60">
+									{specificationItems[3].icon}
+								</div>
+								<div className="flex-1">
+									<h3 className="text-white text-sm font-normal mb-1.5" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontWeight: 400 }}>
+										{specificationItems[3].title}
+									</h3>
+									<p className="text-white/60 text-sm leading-relaxed font-light" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontWeight: 300 }}>
+										{specificationItems[3].value}
+									</p>
+								</div>
+							</div>
+						</div>
 						</div>
 					</div>
 					<div className="pb-2" />
@@ -1596,7 +1677,7 @@ const HomePage = () => {
         whiteSpace: 'nowrap'
       }}
     >
-      Bring one home today.
+      Experience Hornbill today.
     </h2>
     <p
       className="text-white/70 text-sm sm:text-base max-w-md mx-auto mt-1 sm:mt-2"
