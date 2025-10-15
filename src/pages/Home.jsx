@@ -89,7 +89,7 @@ const HomePage = () => {
 	const [highlightProgress, setHighlightProgress] = useState(0)
 	const scrollingTextWords = useMemo(
 		() => {
-			const firstPart = 'A complete workspace designed for modern professionals. Transform any space into a productive hub in seconds with sit-stand flexibility, multi-device connectivity, and Italian-designed elegance.'.split(' ')
+			const firstPart = 'A complete workspace for modern professionals. Transform any space into a productive hub with sit-stand flexibility, multi-device connectivity, and Italian-designed elegance.'.split(' ')
 			const secondPart = 'This is the future of work, distilled into one smart pod.'.split(' ')
 			return [...firstPart, '\n', ...secondPart]
 		},
@@ -1084,7 +1084,8 @@ const HomePage = () => {
         mixBlendMode: 'difference',
         WebkitMixBlendMode: 'difference',
         isolation: 'isolate',
-        fontFamily: 'General Sans, Inter, system-ui, sans-serif'
+        fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+        animation: 'elegant-glow 3s ease-in-out infinite'
       }}
     >
       Book a demo
@@ -1133,8 +1134,8 @@ const HomePage = () => {
 	<section ref={secondPageWrapperRef} className="relative" style={{ height: '150vh', contentVisibility: 'auto', containIntrinsicSize: '1200px 800px' }}>
 				<div className="sticky top-0 h-screen w-full">
 					<div className="absolute inset-0 w-full h-full" style={{ background: 'linear-gradient(135deg, #A1080E 0%, #E44008 41%, #000000 100%)' }} />
-				<div className="relative h-full flex items-center justify-center z-10 text-center px-8 max-w-5xl mx-auto">
-						<p className="leading-tight select-none text-white" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(24px, 2.1vw, 48px)', lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: 500 }}>
+			<div className="relative h-full flex items-center justify-center z-10 text-center px-8 max-w-6xl mx-auto">
+					<p className="leading-tight select-none text-white" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(22px, 2vw, 44px)', lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: 500 }}>
 							{scrollingTextWords.map((word, i) => (
 							word === '\n' ? (
 								<br key={`br-${i}`} />
