@@ -146,7 +146,7 @@ const HomePage = () => {
 			badge: '3',
 			title: 'Elegance',
 			description: 'Minimal, clutter-free, and wireless. The Hornbill SmartPod fits naturally into any space—home, office, or even a coffee shop. Italian design, sound-absorbing acoustic fabric, and thoughtful details make it as beautiful as it is functional.',
-			image: '/images/elegance.jpg',
+			image: '/images/elegance_photo.png',
 			alt: 'Minimal workspace with acoustic panels and elegant design'
 		}
 	]
