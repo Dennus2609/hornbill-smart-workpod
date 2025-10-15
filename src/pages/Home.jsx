@@ -89,16 +89,16 @@ const HomePage = () => {
 	const [highlightProgress, setHighlightProgress] = useState(0)
 	const scrollingTextWords = useMemo(
 		() => {
-			const firstPart = 'The Hornbill SmartPod is a complete workspace designed for modern professionals. It transforms any space into a productive hub in seconds with sit-stand flexibility, multi-device connectivity and a clutter-free setup where Italian design meets smart functionality.'.split(' ')
+			const firstPart = 'A complete workspace designed for modern professionals. Transform any space into a productive hub in seconds with sit-stand flexibility, multi-device connectivity, and Italian-designed elegance.'.split(' ')
 			const secondPart = 'This is the future of work, distilled into one smart pod.'.split(' ')
 			return [...firstPart, '\n', ...secondPart]
 		},
 		[]
 	)
 	const getWordOpacity = (index) => {
-		const perWord = 1 / scrollingTextWords.length
-    const threshold = perWord * (index + 1)
-		return highlightProgress >= threshold ? 1 : 0.3
+		const delay = index * 0.015 // Small delay per word for wave effect
+		const adjustedProgress = Math.max(0, highlightProgress - delay)
+		return adjustedProgress > 0.1 ? 1 : 0.3
 	}
 
 	// Final line emphasis helpers
@@ -142,13 +142,13 @@ const HomePage = () => {
 			image: '/images/elegance.png',
 			alt: 'Sit-stand desk with monitor and ergonomic setup'
 		},
-		{
-			badge: '3',
-			title: 'Elegance',
-			description: 'Minimal, clutter-free, and wireless. The Hornbill SmartPod fits naturally into any space—home, office, or even a coffee shop. Italian design, sound-absorbing acoustic fabric, and thoughtful details make it as beautiful as it is functional.',
-			image: '/images/elegance_photo.png',
-			alt: 'Minimal workspace with acoustic panels and elegant design'
-		}
+	{
+		badge: '3',
+		title: 'Elegance',
+		description: 'Designed in Italy for effortless elegance. Minimal, clutter-free, and wireless, the Hornbill SmartPod fits naturally into any space—home, office, or even a coffee shop. Sound-absorbing acoustic fabric and thoughtful details make it as beautiful as it is functional.',
+		image: '/images/elegance_photo.png',
+		alt: 'Minimal workspace with acoustic panels and elegant design'
+	}
 	]
 
 	// Preload chapter images
@@ -279,12 +279,16 @@ const HomePage = () => {
 
 	// Page 8: vertical portrait carousel (like page 5, portrait images)
 	const verticalSlides = [
-		{ src: '/images/clean no cables.jpg', alt: 'Clean Workspace', label: 'Clean Workspace', title: 'One button powers a clean, cable-less minimal workspace.' },
+		{ src: '/images/clean no cables.jpg', alt: 'Sit-Stand Flexibility', label: 'Sit-Stand Flexibility', title: 'Effortless sit-stand transitions for optimal comfort.' },
+		{ src: '/images/ChatGPT Image Aug 15, 2025, 02_03_12 PM.png', alt: 'One-touch panel', label: 'One-Touch Control', title: 'One-touch panel adjusts height, lighting, and power instantly and safely.' },
 		{ src: '/images/multi device conttectivity.png', alt: 'Multi-Device Connectivity', label: 'Multi-Device', title: 'Seamlessly link phones, tablets, and laptops in one workspace.' },
+		{ src: '/images/lighting_vertical_photo.png', alt: 'Adjustable Lighting', label: 'Adjustable Lighting', title: 'Customizable brightness levels for any task.' },
+		{ src: '/images/swivel_monitor_vertical.png', alt: 'Swivel monitor arm', label: 'Monitor Arm', title: 'Swivel monitor arm positions screens for perfect viewing and posture.', dark: true },
+		{ src: '/images/Generated Image October 15, 2025 - 2_37PM.png', alt: 'Private Connectivity', label: 'Private Connectivity', title: 'Portable SIM-enabled communicator for secure data access.' },
 		{ src: '/images/storage units .png', alt: 'Integrated Storage', label: 'Integrated Storage', title: 'Seamlessly built-in drawers keep essentials hidden.' },
+		{ src: '/images/wireless phone charger.png', alt: 'Wireless Charging', label: 'Wireless Charging', title: 'Integrated Qi pad powers your phone wirelessly' },
 		{ src: '/images/app controlled.png', alt: 'App Controlled', label: 'App Controlled', title: 'Adjust height, lighting, and power from the Hornbill app.' },
 		{ src: '/images/ChatGPT Image Aug 15, 2025, 01_55_50 PM.png', alt: 'Recessed Cup Holder', label: 'Recessed Cup Holder', title: 'Recessed holder keeps drinks steady and surfaces safe.' },
-		{ src: '/images/wireless phone charger.png', alt: 'Wireless Charging', label: 'Wireless Charging', title: 'Integrated Qi pad powers your phone wirelessly' },
 		{ src: '/images/laptop holder .png', alt: 'Vertical Laptop Stand', label: 'Vertical Laptop Stand', title: 'Dedicated storage space for your laptop' }
 	]
 	const verticalContainerRef = useRef(null)
@@ -1028,13 +1032,13 @@ const HomePage = () => {
         <header className={`hidden sm:block ${headerIsUnstuck ? 'absolute' : 'fixed'} top-0 left-0 w-full z-50 py-4 md:py-6`}>
           <div className="w-full px-8 sm:px-12 lg:px-16">
             <div className="flex items-center justify-between">
-						<button 
-							onClick={scrollToTop}
-							className={`text-xl sm:text-2xl md:text-3xl font-medium tracking-wide transition-all duration-300 hover:opacity-80 cursor-pointer ${isChaptersVisible || isARVisible ? 'text-black' : 'text-white'}`} 
-							style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
-						>
-							Hornbill
-						</button>
+					<button 
+						onClick={scrollToTop}
+						className={`text-lg sm:text-xl md:text-2xl font-medium tracking-wide transition-all duration-300 hover:opacity-80 cursor-pointer px-2 sm:px-3 py-1.5 rounded-full ${isChaptersVisible || isARVisible ? 'text-black bg-white/85 border border-black/10 shadow-md' : 'text-white bg-white/10 border border-white/25 backdrop-blur-sm shadow-lg'}`} 
+						style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+					>
+						Hornbill
+					</button>
 							<div
 								className={`${isChaptersVisible || isARVisible
 									? 'bg-white/85 border border-black/10 shadow-md'
@@ -1072,39 +1076,37 @@ const HomePage = () => {
       ref={mobileStickyBtnRef}
       className="
         pointer-events-auto bg-white text-black text-[14px] leading-none
-        font-medium px-10 py-4 rounded-[6px] text-center active:scale-95
-        transition-all duration-300
+        font-medium px-10 py-4 rounded-[6px] text-center shadow-md active:scale-95
+        transition-transform
       "
       style={{
         width: '240px', // JS grows this while scrolling through Final CTA
         mixBlendMode: 'difference',
         WebkitMixBlendMode: 'difference',
         isolation: 'isolate',
-        fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-        boxShadow: '0 0 24px rgba(255, 160, 27, 0.43), 0 0 48px rgba(228, 64, 8, 0.33), 0 4px 20px rgba(255, 160, 27, 0.28)',
-        animation: 'elegant-glow 3s ease-in-out infinite'
+        fontFamily: 'General Sans, Inter, system-ui, sans-serif'
       }}
     >
       Book a demo
     </Link>
   </div>
 </div>
-		{/* Mobile top bar (Opal-style) */}
-		<div className="sm:hidden fixed top-0 inset-x-0 z-50" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 4px)' }}>
-			<div className="px-4 py-3 flex items-center justify-between">
-				<button 
-					onClick={scrollToTop}
-					className={`text-[1.4rem] font-medium hover:opacity-80 transition-all duration-300 cursor-pointer ${isChaptersVisible || isARVisible ? 'text-black' : 'text-white'}`} 
-					style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
-				>
-					Hornbill
-				</button>
-				{/* Hornbill Logo */}
-				<div className="w-7 h-7 flex items-center justify-center">
-					<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-full h-full object-contain" />
-				</div>
+	{/* Mobile top bar (Opal-style) */}
+	<div className="sm:hidden fixed top-0 inset-x-0 z-50" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 4px)' }}>
+		<div className="px-4 py-3 flex items-center justify-between">
+			<button 
+				onClick={scrollToTop}
+				className={`text-lg font-medium hover:opacity-80 transition-all duration-300 cursor-pointer px-2 py-1.5 rounded-full ${isChaptersVisible || isARVisible ? 'text-black bg-white/85 border border-black/10 shadow-md' : 'text-white bg-white/10 border border-white/25 backdrop-blur-md shadow-lg'}`} 
+				style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+			>
+				Hornbill
+			</button>
+			{/* Hornbill Logo */}
+			<div className="w-7 h-7 flex items-center justify-center">
+				<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-full h-full object-contain" />
 			</div>
-			<div className="h-px bg-white/15" />
+		</div>
+		<div className="h-px bg-white/15" />
 		</div>
 
 			{/* Page 1: Hero */}
@@ -1127,8 +1129,8 @@ const HomePage = () => {
         </div>
       </section>
 
-			{/* Page 2: Gradient text highlight */}
-		<section ref={secondPageWrapperRef} className="relative" style={{ height: '200vh', contentVisibility: 'auto', containIntrinsicSize: '1200px 800px' }}>
+		{/* Page 2: Gradient text highlight */}
+	<section ref={secondPageWrapperRef} className="relative" style={{ height: '150vh', contentVisibility: 'auto', containIntrinsicSize: '1200px 800px' }}>
 				<div className="sticky top-0 h-screen w-full">
 					<div className="absolute inset-0 w-full h-full" style={{ background: 'linear-gradient(135deg, #A1080E 0%, #E44008 41%, #000000 100%)' }} />
 				<div className="relative h-full flex items-center justify-center z-10 text-center px-8 max-w-5xl mx-auto">
@@ -1139,9 +1141,10 @@ const HomePage = () => {
 							) : (
 								<span
 									key={`word-${i}`}
-									className="inline-block mr-2 transition-all duration-300 ease-out"
+									className="inline-block mr-2 transition-all duration-700 ease-out"
 									style={{
 										opacity: getWordOpacity(i),
+										transform: `translateY(${getWordOpacity(i) === 1 ? '0' : '4px'})`,
 										backgroundImage: i >= finalLineStartIndex ? 'linear-gradient(90deg, #FFFFFF 0%, #FFD7B0 50%, #FFFFFF 100%)' : undefined,
 										WebkitBackgroundClip: i >= finalLineStartIndex ? 'text' : undefined,
 										backgroundClip: i >= finalLineStartIndex ? 'text' : undefined,
@@ -1231,47 +1234,61 @@ const HomePage = () => {
 					<div className="w-full h-px bg-gray-300 mx-auto" />
 				</div>
 
-				{/* Three Pillars - Side by Side */}
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-14">
-					{chapters.map((chapter) => (
-						<div key={chapter.badge} className="group">
-							{/* Image - Taller */}
-							<div className="relative w-full aspect-[3/4] overflow-hidden rounded-3xl mb-5 transition-transform duration-300 group-hover:scale-[1.01]">
-								<img
-									src={chapter.image}
-									alt={chapter.alt}
-									className="w-full h-full object-cover"
-									loading="lazy"
-								/>
-							</div>
-							
-							{/* Content */}
-							<div>
-								<h3
-									className="text-black font-normal mb-2"
-									style={{ 
-										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-										fontSize: 'clamp(20px, 1.5vw, 22px)',
-										letterSpacing: '0.002em',
-										fontWeight: 500
-									}}
-								>
-									{chapter.title}.
-								</h3>
-								<p
-									className="text-gray-500 leading-relaxed font-light"
-									style={{
-										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-										fontSize: 'clamp(13px, 0.95vw, 15px)',
-										fontWeight: 300,
-										lineHeight: '1.6'
-									}}
-								>
-									{chapter.description}
-								</p>
-							</div>
+			{/* Three Pillars - Side by Side */}
+			<div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10 lg:gap-14">
+				{chapters.map((chapter) => (
+					<div key={chapter.badge} className="group">
+						{/* Mobile Heading (shows only on mobile) */}
+						<h3
+							className="md:hidden text-black font-normal mb-4"
+							style={{ 
+								fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+								fontSize: 'clamp(24px, 5vw, 28px)',
+								letterSpacing: '0.002em',
+								fontWeight: 500
+							}}
+						>
+							{chapter.title}.
+						</h3>
+						
+						{/* Image - Taller */}
+						<div className="relative w-full aspect-[3/4] overflow-hidden rounded-3xl mb-5 transition-transform duration-300 group-hover:scale-[1.01]">
+							<img
+								src={chapter.image}
+								alt={chapter.alt}
+								className="w-full h-full object-cover"
+								loading="lazy"
+							/>
 						</div>
-					))}
+						
+						{/* Content */}
+						<div>
+							{/* Desktop Heading (hidden on mobile) */}
+							<h3
+								className="hidden md:block text-black font-normal mb-2"
+								style={{ 
+									fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+									fontSize: 'clamp(20px, 1.5vw, 22px)',
+									letterSpacing: '0.002em',
+									fontWeight: 500
+								}}
+							>
+								{chapter.title}.
+							</h3>
+							<p
+								className="text-gray-500 leading-relaxed font-light"
+								style={{
+									fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+									fontSize: 'clamp(15px, 0.95vw, 16px)',
+									fontWeight: 300,
+									lineHeight: '1.7'
+								}}
+							>
+								{chapter.description}
+							</p>
+						</div>
+					</div>
+				))}
 				</div>
 				
 				<div className="h-16 sm:h-20 lg:h-24" />
@@ -1328,123 +1345,16 @@ const HomePage = () => {
             </div>
 			</section>
 
-			{/* Page 4: Highlights */}
-			<section className="relative w-full bg-black text-white min-h-screen">
-				<div className="px-6 sm:px-10 lg:px-16 pt-16 lg:pt-20 max-w-[1400px] mx-auto">
-					<div ref={highlightsHeaderRef} className="flex items-start justify-between gap-6 relative">
-						<div className="max-w-3xl pr-6">
-							<div className="flex items-center gap-3 mb-5">
-								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">4</span>
-								<span className="text-lg">Highlights</span>
-							</div>
-							<h2 className="text-white font-medium leading-[1.05] mb-4" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(34px, 4vw, 48px)', letterSpacing: '-0.01em' }}>The Power of an Office in the<br className="hidden md:block"/> Size of a Box.</h2>
-							<p ref={highlightsParagraphRef} className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl">Every purchase includes the complete Hornbill system — with desk, power, accessories, and the Hornbill mobile app.</p>
-						</div>
-						<div className="hidden md:flex items-center gap-3" style={{ position: 'absolute', right: 0, top: controlsTop }}>
-							<button aria-label="Previous slide" onClick={prevHighlight} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><ChevronLeft className="w-5 h-5"/></button>
-							<button aria-label="Next slide" onClick={nextHighlight} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><ChevronRight className="w-5 h-5"/></button>
-						</div>
-                </div>
-                
-					{/* Slider */}
-					<div className="mt-6 md:mt-8">
-						<div ref={highlightsContainerRef} className="scroll-container-smooth scrollbar-hide flex gap-6 md:gap-8 px-1 md:px-0 overflow-x-auto overscroll-x-contain snap-x snap-proximity" style={{ scrollPadding: '0 16px' }}>
-							{highlightSlides.map((slide) => (
-								<figure key={slide.src} className="group shrink-0 w-[86vw] sm:w-[78vw] md:w-[70vw] lg:w-[940px] rounded-[26px] overflow-hidden bg-white/5 ring-1 ring-white/10 relative focus:outline-none focus:ring-2 focus:ring-white/30 snap-center" tabIndex={0} data-hl-item>
-									<img src={slide.src} alt={slide.alt} className="w-full h-[54vh] md:h-[56vh] lg:h-[60vh] object-cover transition-transform duration-500 will-change-transform" loading="lazy" data-hl-image />
-									{/* Legibility gradient */}
-									<div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/75 via-black/30 to-transparent" />
-									<figcaption className="absolute inset-x-0 bottom-0 p-4 sm:p-5 md:p-6 will-change-transform" data-hl-caption>
-										<div className="max-w-[55%] text-white">
-											<div className="text-[20px] sm:text-[20px] md:text-[22px] lg:text-[22px] font-normal leading-[1.1] mb-1 sm:mb-1.5 md:mb-2 text-gray-300" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', letterSpacing: '-0.01em' }}>
-												{slide.title.split('.')[0]}.
-											</div>
-											{slide.title.split('.').length > 1 && (
-												<div className="text-[14px] sm:text-[16px] md:text-[18px] lg:text-[20px] font-regular leading-[1.2] opacity-90" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', letterSpacing: '-0.005em' }}>
-													{slide.title.split('.').slice(1).join('.').trim()}
-												</div>
-											)}
-										</div>
-									</figcaption>
-								</figure>
-							))}
-						</div>
-						<div className="flex md:hidden items-center justify-end gap-3 py-5">
-							<button aria-label="Previous slide" onClick={prevHighlight} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><ChevronLeft className="w-5 h-5"/></button>
-							<button aria-label="Next slide" onClick={nextHighlight} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><ChevronRight className="w-5 h-5"/></button>
-						</div>
-					</div>
-				</div>
-			</section>
-
-			{/* Page 5: Big narrative headline (left-aligned, centered container) */}
-			<section className="w-full bg-black text-white min-h-[60vh] flex items-center" data-p5>
-				<div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-64 pb-20 lg:pt-80 lg:pb-28 w-full">
-					<h2 className="font-medium max-w-[24ch]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(30px, 4.8vw, 52px)', lineHeight: 1.12, letterSpacing: '-0.01em' }} data-reveal>
-						Intelligent comfort meets Italian craftsmanship, uniting power, ergonomics, and quiet precision in a SmartPod that transforms how you work, think, and create.
-					</h2>
-					<p className="mt-7 text-white/70 max-w-[58ch]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(15px, 1.2vw, 18px)', lineHeight: 1.6 }} data-reveal>
-						Built for long focus blocks and rapid sprints alike, it offers sit-stand freedom, seamless device integration, and an acoustic shell that shuts the world out—so your best work comes naturally.
-					</p>
-					<hr className="mt-8 border-white/30 border-t-2" />
-				</div>
-			</section>
-
-			{/* Page 6: Four-up feature grid (Opal-inspired) */}
-			<section className="w-full bg-black text-white min-h-[90vh] flex items-center pt-16 pb-16 lg:pt-0 lg:pb-24">
-				<div className="max-w-5xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-						{/* Card 1 */}
-						<div className={`transition-all duration-700`} data-p6-card>
-							<div className="w-14 h-14 md:w-12 md:h-12 rounded-2xl mb-5 bg-white/10 flex items-center justify-center">
-								<HomeIcon className="w-7 h-7 md:w-6 md:h-6" style={{ color: '#FFA01B' }} />
-							</div>
-							<h3 className="font-medium mb-2 max-w-[26ch]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(24px,5.5vw,32px)' }}>Built to belong</h3>
-							<p className="text-white/70 leading-relaxed max-w-[50ch]">Hornbill's compact footprint and refined design let the SmartPod belong anywhere—home office, studio, or open workspace. Heavy-duty castor wheels with locking brakes make relocation smooth and stable, so your ideal setup can move when you do.</p>
-						</div>
-
-						{/* Card 2 */}
-						<div className={`transition-all duration-700 delay-75`} data-p6-card>
-							<div className="w-14 h-14 md:w-12 md:h-12 rounded-2xl mb-5 bg-white/10 flex items-center justify-center">
-								<Move className="w-7 h-7 md:w-6 md:h-6" style={{ color: '#FFA01B' }} />
-							</div>
-							<h3 className="font-medium mb-2 max-w-[26ch]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(24px,5.5vw,32px)' }}>Effortless portability</h3>
-							<p className="text-white/70 leading-relaxed max-w-[50ch]">Integrated wheels and precision brakes let you glide the SmartPod across floors and lock it firmly in place. Shift rooms, reorient layouts, or roll into a new space with confidence—movement stays silent and controlled.</p>
-						</div>
-
-						{/* Card 3 */}
-						<div className={`transition-all duration-700 delay-150`} data-p6-card>
-							<div className="w-14 h-14 md:w-12 md:h-12 rounded-2xl mb-5 bg-white/10 flex items-center justify-center">
-								<VolumeX className="w-7 h-7 md:w-6 md:h-6" style={{ color: '#FFA01B' }} />
-							</div>
-							<h3 className="font-medium mb-2 max-w-[26ch]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(24px,5.5vw,32px)' }}>Quiet by design</h3>
-							<p className="text-white/70 leading-relaxed max-w-[50ch]">High-grade acoustic fabric enhances privacy and focus by reducing noise in open-plan offices or shared spaces. The panel's refined texture absorbs sound while blending seamlessly with the SmartPod's minimalist design.</p>
-						</div>
-						
-						{/* Card 4 */}
-						<div className={`transition-all duration-700 delay-[225ms]`} data-p6-card>
-							<div className="w-14 h-14 md:w-12 md:h-12 rounded-2xl mb-5 bg-white/10 flex items-center justify-center">
-								<Radio className="w-7 h-7 md:w-6 md:h-6" style={{ color: '#FFA01B' }} />
-							</div>
-							<h3 className="font-medium mb-2 max-w-[26ch]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(24px,5.5vw,32px)' }}>Connected anywhere</h3>
-							<p className="text-white/70 leading-relaxed max-w-[50ch]">A portable communicator with SIM support keeps data private and secure, even without Wi-Fi. The SmartPod maintains seamless device integration and reliable connectivity wherever you set up.</p>
-						</div>
-					</div>
-
-					<hr className="mt-16 border-white/15" />
-				</div>
-			</section>
-
-			{/* Page 7: Vertical portrait carousel */}
+	{/* Page 4: Vertical portrait carousel */}
 			<section className="relative w-full bg-black text-white min-h-screen">
 				<div className="px-6 sm:px-10 lg:px-16 pt-14 lg:pt-20 max-w-[1400px] mx-auto">
 					<div ref={verticalHeaderRef} className="flex items-start justify-between gap-6 relative">
 						<div className="max-w-3xl pr-6">
 							<div className="flex items-center gap-3 mb-5">
-								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">5</span>
+								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">4</span>
 								<span className="text-lg">Features</span>
 							</div>
-							<h2 className="text-white font-medium leading-[1.05] mb-4" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(34px, 4vw, 48px)', letterSpacing: '-0.01em' }}>The most advanced workpod<br className="hidden md:block"/> you've ever seen.</h2>
+							<h2 className="text-white font-medium leading-[1.05] mb-4" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(34px, 4vw, 48px)', letterSpacing: '-0.01em' }}>The Power of an Office in the Size of a Box.</h2>
 							<p ref={verticalParagraphRef} className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl">Every detail engineered for peak performance — from wireless charging to intelligent lighting, designed to elevate your work experience.</p>
 						</div>
 						<div className="hidden md:flex items-center gap-3" style={{ position: 'absolute', right: 0, top: controlsTop8 }}>
@@ -1461,10 +1371,10 @@ const HomePage = () => {
 							{verticalSlides.map((slide, idx) => (
 								<figure key={slide.src} className="shrink-0 w-[58vw] sm:w-[46vw] md:w-[36vw] lg:w-[360px] rounded-[26px] overflow-hidden ring-1 ring-white/10 relative bg-black snap-center" data-vg-item>
 									<img src={slide.src} alt={slide.alt} className="w-full h-[60vh] md:h-[62vh] lg:h-[64vh] object-cover transition-transform duration-500 will-change-transform" loading="lazy" data-vg-image />
-									<div className={`absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b ${idx === 4 ? 'from-black/65 via-black/20' : 'from-white/80 via-white/40'} to-transparent pointer-events-none`} />
+									<div className={`absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b ${slide.dark ? 'from-black/65 via-black/20' : 'from-white/80 via-white/40'} to-transparent pointer-events-none`} />
 										<div className="absolute inset-0 flex flex-col justify-start p-5 sm:p-6 will-change-transform" data-vg-caption>
-											<div className={`${idx === 4 ? 'text-gray-300' : 'text-gray-900'} text-xs sm:text-sm font-medium`} style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontWeight: '500', textShadow: idx === 4 ? '0 1px 1px rgba(0,0,0,0.35)' : 'none' }}>{slide.label}</div>
-											<h3 className={`${idx === 4 ? 'text-gray-300' : 'text-black'} font-medium leading-[1.1] whitespace-pre-line max-w-[22ch] mt-2`} style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(16px,3.2vw,22px)', letterSpacing: '-0.01em', textShadow: idx === 4 ? '0 1px 1px rgba(0,0,0,0.35)' : 'none' }}>{slide.title}</h3>
+											<div className={`${slide.dark ? 'text-gray-300' : 'text-gray-900'} text-xs sm:text-sm font-medium`} style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontWeight: '500', textShadow: slide.dark ? '0 1px 1px rgba(0,0,0,0.35)' : 'none' }}>{slide.label}</div>
+											<h3 className={`${slide.dark ? 'text-gray-300' : 'text-black'} font-medium leading-[1.1] whitespace-pre-line max-w-[22ch] mt-2`} style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(16px,3.2vw,22px)', letterSpacing: '-0.01em', textShadow: slide.dark ? '0 1px 1px rgba(0,0,0,0.35)' : 'none' }}>{slide.title}</h3>
 										</div>
 								</figure>
 							))}
@@ -1493,7 +1403,7 @@ const HomePage = () => {
 						{/* Right: copy and list */}
 						<div ref={specRightRef} className="lg:col-span-6 order-1 lg:order-2">
 							<div className="flex items-center gap-3 mb-5" data-spec-reveal>
-								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">6</span>
+								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">5</span>
 								<span className="text-lg">Specification</span>
 							</div>
 							<div className="space-y-4 sm:space-y-5">
@@ -1560,7 +1470,7 @@ const HomePage = () => {
 							{/* Left copy */}
 							<div className="lg:col-span-7 order-1 lg:order-1" data-ar-copy>
 								<div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-									<span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center text-xs sm:text-sm font-medium">7</span>
+									<span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center text-xs sm:text-sm font-medium">6</span>
 									<span className="text-sm sm:text-base md:text-lg text-white/90" data-ar-reveal>AR Viewable</span>
 								</div>
 								<h2 className="font-medium leading-[1.08] mb-4 sm:mb-5 text-white" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(22px,2.6vw,34px)', letterSpacing: '-0.01em' }} data-ar-reveal>
