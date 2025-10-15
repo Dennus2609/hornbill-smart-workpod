@@ -1631,7 +1631,7 @@ const HomePage = () => {
       className="text-white font-medium leading-[1.05] mb-4 sm:mb-5 md:mb-6"
       style={{
         fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-        fontSize: 'clamp(22px, 6vw, 38px)',
+        fontSize: 'clamp(24px, 6.5vw, 42px)',
         letterSpacing: '-0.02em',
         whiteSpace: 'nowrap'
       }}
