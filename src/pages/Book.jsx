@@ -99,23 +99,23 @@ const BookPage = () => {
   )
 
   return (
-    <div className="h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex flex-col overflow-hidden" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex flex-col" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>
       <Header />
-      <main className="flex-1 w-full overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-12 w-full gap-6 lg:gap-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 h-full py-6 sm:py-8">
+      <main className="flex-1 w-full flex items-center py-6 sm:py-8 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 w-full gap-6 lg:gap-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 lg:min-h-[85vh]">
           
           {/* Mobile hero on top */}
           {!isSubmitted && (
             <div className="block lg:hidden order-1 mb-2">
               <div className="relative w-full h-64 sm:h-80 overflow-hidden rounded-3xl shadow-xl">
-                <img src="/images/ChatGPT Image Aug 15, 2025, 02_02_29 PM.png" alt={carouselImages[0].alt} className="w-full h-full object-cover" />
+                <img src="/images/booknow_mobile_image.png" alt="Hornbill SmartPod - Mobile View" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
               </div>
             </div>
           )}
 
-          <div className="lg:col-span-5 order-2 lg:order-2 flex flex-col h-full">
-            <form name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit} className="flex flex-col h-full bg-white rounded-3xl shadow-xl border border-gray-100 p-6 sm:p-7 lg:p-8">
+          <div className="lg:col-span-5 order-2 lg:order-2 flex">
+            <form name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={handleSubmit} className="flex flex-col w-full bg-white rounded-3xl shadow-xl border border-gray-100 p-6 sm:p-7 lg:p-8">
               <input type="hidden" name="form-name" value="booking" />
               <input type="text" name="bot-field" className="hidden" tabIndex={-1} autoComplete="off" />
               
@@ -287,7 +287,7 @@ const BookPage = () => {
             </form>
           </div>
 
-          <div className="hidden lg:block lg:col-span-7 order-2 lg:order-1 w-full h-full">
+          <div className="hidden lg:block lg:col-span-7 order-2 lg:order-1">
             <div className="relative w-full h-full overflow-hidden rounded-3xl shadow-2xl">
               {carouselImages.map((image, index) => (
                 <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}>

@@ -1072,15 +1072,17 @@ const HomePage = () => {
       ref={mobileStickyBtnRef}
       className="
         pointer-events-auto bg-white text-black text-[14px] leading-none
-        font-medium px-10 py-4 rounded-[6px] text-center shadow-md active:scale-95
-        transition-transform
+        font-medium px-10 py-4 rounded-[6px] text-center active:scale-95
+        transition-all duration-300
       "
       style={{
         width: '240px', // JS grows this while scrolling through Final CTA
         mixBlendMode: 'difference',
         WebkitMixBlendMode: 'difference',
         isolation: 'isolate',
-        fontFamily: 'General Sans, Inter, system-ui, sans-serif'
+        fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+        boxShadow: '0 0 24px rgba(255, 160, 27, 0.43), 0 0 48px rgba(228, 64, 8, 0.33), 0 4px 20px rgba(255, 160, 27, 0.28)',
+        animation: 'elegant-glow 3s ease-in-out infinite'
       }}
     >
       Book a demo
