@@ -1622,21 +1622,21 @@ const HomePage = () => {
 					<div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[#DD2C00] via-[#F26722] to-[#D81A00]" />
 				</div>
 				
-				{/* Mobile Layout: Text floating above, image anchored to bottom */}
-				<div className="lg:hidden min-h-screen relative">
-					{/* Text Section — centered, no inline button on mobile */}
-					<div className="absolute top-0 left-0 right-0 z-10 px-6 pt-32 sm:pt-40 md:pt-48">
+			{/* Mobile Layout: Text floating above, image anchored to bottom */}
+			<div className="lg:hidden min-h-screen relative">
+				{/* Text Section — centered, no inline button on mobile */}
+				<div className="absolute top-0 left-0 right-0 z-10 px-6 sm:px-8 pt-32 sm:pt-40 md:pt-48">
   <div className="max-w-md mx-auto text-center" style={{ filter: `brightness(${Math.min(1.0, 0.3 + ctaGlow)})` }}>
     <h2
       className="text-white font-medium leading-[1.05] mb-4 sm:mb-5 md:mb-6"
       style={{
         fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-        fontSize: 'clamp(32px,4.8vw,56px)',
-        letterSpacing: '-0.01em',
+        fontSize: 'clamp(22px, 6vw, 38px)',
+        letterSpacing: '-0.02em',
         whiteSpace: 'nowrap'
       }}
     >
-      Experience Hornbill today.
+      Experience Hornbill today
     </h2>
     <p
       className="text-white/70 text-sm sm:text-base max-w-md mx-auto mt-1 sm:mt-2"
