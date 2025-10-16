@@ -1113,7 +1113,7 @@ const HomePage = () => {
 			{/* Page 1: Hero */}
       <section ref={heroRef} className="w-full h-screen overflow-hidden relative" style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 600px' }}>
         <div className="absolute inset-0 w-full h-full" style={{ transform: reduceMotion ? 'none' : `translateY(${heroParallax * 12}px)`, transition: 'transform 80ms linear' }}>
-					<video ref={videoRef} src={heroVideoSrc} poster="/images/smartworkpod-hero-desktop.jpg" preload="metadata" className={`w-full h-full object-cover object-center ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} style={{ transition: 'opacity 600ms ease-out' }} autoPlay muted playsInline onLoadedData={() => setIsVideoLoaded(true)} onCanPlay={() => setIsVideoLoaded(true)} />
+					<video ref={videoRef} src={heroVideoSrc} preload="metadata" className={`w-full h-full object-cover object-center ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`} style={{ transition: 'opacity 600ms ease-out' }} autoPlay muted playsInline onLoadedData={() => setIsVideoLoaded(true)} onCanPlay={() => setIsVideoLoaded(true)} />
 					<div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
         </div>
           <div className="absolute inset-0 flex items-center justify-end pr-8 lg:pr-16 xl:pr-20">
