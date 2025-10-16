@@ -12,14 +12,15 @@ const Footer = () => {
     >
       <div className="max-w-[1920px] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-20 sm:pt-24 lg:pt-32 pb-8">
         {/* Massive Hornbill Typography - Balanced weight */}
-        <div className="relative mb-12 sm:mb-14 -ml-1">
+        <div className="relative mb-12 sm:mb-14 -ml-1 overflow-hidden">
           <h2 
             className="text-white leading-[0.9] tracking-tight select-none"
             style={{
-              fontSize: 'clamp(120px, 18vw, 320px)',
+              fontSize: 'clamp(64px, 18vw, 320px)',
               letterSpacing: '-0.055em',
               fontWeight: 400,
-              fontFamily: 'General Sans, Inter, system-ui, sans-serif'
+              fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+              wordBreak: 'keep-all'
             }}
           >
             Hornbill
@@ -59,7 +60,7 @@ const Footer = () => {
 
           {/* Right: Link Columns - lighter, more spaced */}
           <div className="lg:col-span-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-12 lg:gap-16 relative">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 lg:gap-16 relative">
               {/* Company */}
               <div className="relative">
                 <h4 
