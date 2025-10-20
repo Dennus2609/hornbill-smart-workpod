@@ -1691,7 +1691,9 @@ const HomePage = () => {
 					ar
 					camera-controls
 					ar-modes="scene-viewer quick-look webxr"
-					style={{ width: 0, height: 0 }}>
+					style={{ width: 0, height: 0 }}
+					model-viewer-position="0 -0.1 0"
+					model-viewer-orbit="0 0 0">
 				</model-viewer>
 			</div>
 		</>
