@@ -1685,7 +1685,7 @@ const HomePage = () => {
 			{/* Hidden model-viewer for AR launch */}
 			<div className="sr-only" aria-hidden>
 				<model-viewer id="hb-ar-table"
-					src="/images/scene.glb"
+					src="/images/hornbill_model.glb"
 					alt="Hornbill SmartPod 3D Model"
 					ar
 					camera-controls
