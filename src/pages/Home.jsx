@@ -1685,9 +1685,8 @@ const HomePage = () => {
 			{/* Hidden model-viewer for AR launch */}
 			<div className="sr-only" aria-hidden>
 				<model-viewer id="hb-ar-table"
-					src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
-					ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
-					alt="AR model placeholder"
+					src="/images/Horn_Bill.glb"
+					alt="Hornbill SmartPod 3D Model"
 					ar
 					camera-controls
 					ar-modes="scene-viewer quick-look webxr"
