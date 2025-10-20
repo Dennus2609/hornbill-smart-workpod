@@ -1686,7 +1686,6 @@ const HomePage = () => {
 			<div className="sr-only" aria-hidden>
 				<model-viewer id="hb-ar-table"
 					src="/images/scene.glb"
-					ios-src="/images/model.usdz"
 					alt="Hornbill SmartPod 3D Model"
 					ar
 					camera-controls
