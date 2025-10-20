@@ -142,13 +142,13 @@ const HomePage = () => {
 			image: '/images/elegance.png',
 			alt: 'Sit-stand desk with monitor and ergonomic setup'
 		},
-	{
-		badge: '3',
-		title: 'Elegance',
+		{
+			badge: '3',
+			title: 'Elegance',
 		description: 'Designed in Italy for effortless elegance. Minimal, clutter-free, and wireless, the Hornbill SmartPod fits naturally into any space—home, office, or even a coffee shop. Sound-absorbing acoustic fabric and thoughtful details make it as beautiful as it is functional.',
 		image: '/images/elegance_photo.png',
-		alt: 'Minimal workspace with acoustic panels and elegant design'
-	}
+			alt: 'Minimal workspace with acoustic panels and elegant design'
+		}
 	]
 
 	// Preload chapter images
@@ -1032,13 +1032,13 @@ const HomePage = () => {
         <header className={`hidden sm:block ${headerIsUnstuck ? 'absolute' : 'fixed'} top-0 left-0 w-full z-50 py-4 md:py-6`}>
           <div className="w-full px-8 sm:px-12 lg:px-16">
             <div className="flex items-center justify-between">
-					<button 
-						onClick={scrollToTop}
+						<button 
+							onClick={scrollToTop}
 						className={`text-lg sm:text-xl md:text-2xl font-medium tracking-wide transition-all duration-300 hover:opacity-80 cursor-pointer px-2 sm:px-3 py-1.5 rounded-full ${isChaptersVisible || isARVisible ? 'text-black bg-white/85 border border-black/10 shadow-md' : 'text-white bg-white/10 border border-white/25 backdrop-blur-sm shadow-lg'}`} 
-						style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
-					>
-						Hornbill
-					</button>
+							style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+						>
+							Hornbill
+						</button>
 							<div
 								className={`${isChaptersVisible || isARVisible
 									? 'bg-white/85 border border-black/10 shadow-md'
@@ -1092,22 +1092,22 @@ const HomePage = () => {
     </Link>
   </div>
 </div>
-	{/* Mobile top bar (Opal-style) */}
-	<div className="sm:hidden fixed top-0 inset-x-0 z-50" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 4px)' }}>
-		<div className="px-4 py-3 flex items-center justify-between">
-			<button 
-				onClick={scrollToTop}
+		{/* Mobile top bar (Opal-style) */}
+		<div className="sm:hidden fixed top-0 inset-x-0 z-50" style={{ paddingTop: 'calc(env(safe-area-inset-top) + 4px)' }}>
+			<div className="px-4 py-3 flex items-center justify-between">
+				<button 
+					onClick={scrollToTop}
 				className={`text-lg font-medium hover:opacity-80 transition-all duration-300 cursor-pointer px-2 py-1.5 rounded-full ${isChaptersVisible || isARVisible ? 'text-black bg-white/85 border border-black/10 shadow-md' : 'text-white bg-white/10 border border-white/25 backdrop-blur-md shadow-lg'}`} 
-				style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
-			>
-				Hornbill
-			</button>
-			{/* Hornbill Logo */}
-			<div className="w-7 h-7 flex items-center justify-center">
-				<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-full h-full object-contain" />
+					style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}
+				>
+					Hornbill
+				</button>
+				{/* Hornbill Logo */}
+				<div className="w-7 h-7 flex items-center justify-center">
+					<img src="/images/HORNBILL-LOGO.png" alt="Hornbill Logo" className="w-full h-full object-contain" />
+				</div>
 			</div>
-		</div>
-		<div className="h-px bg-white/15" />
+			<div className="h-px bg-white/15" />
 		</div>
 
 			{/* Page 1: Hero */}
@@ -1130,7 +1130,7 @@ const HomePage = () => {
         </div>
       </section>
 
-		{/* Page 2: Gradient text highlight */}
+			{/* Page 2: Gradient text highlight */}
 	<section ref={secondPageWrapperRef} className="relative" style={{ height: '150vh', contentVisibility: 'auto', containIntrinsicSize: '1200px 800px' }}>
 				<div className="sticky top-0 h-screen w-full">
 					<div className="absolute inset-0 w-full h-full" style={{ background: 'linear-gradient(135deg, #A1080E 0%, #E44008 41%, #000000 100%)' }} />
@@ -1235,10 +1235,10 @@ const HomePage = () => {
 					<div className="w-full h-px bg-gray-300 mx-auto" />
 				</div>
 
-			{/* Three Pillars - Side by Side */}
+				{/* Three Pillars - Side by Side */}
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-10 lg:gap-14">
-				{chapters.map((chapter) => (
-					<div key={chapter.badge} className="group">
+					{chapters.map((chapter) => (
+						<div key={chapter.badge} className="group">
 						{/* Mobile Heading (shows only on mobile) */}
 						<h3
 							className="md:hidden text-black font-normal mb-4"
@@ -1252,44 +1252,44 @@ const HomePage = () => {
 							{chapter.title}.
 						</h3>
 						
-						{/* Image - Taller */}
-						<div className="relative w-full aspect-[3/4] overflow-hidden rounded-3xl mb-5 transition-transform duration-300 group-hover:scale-[1.01]">
-							<img
-								src={chapter.image}
-								alt={chapter.alt}
-								className="w-full h-full object-cover"
-								loading="lazy"
-							/>
-						</div>
-						
-						{/* Content */}
-						<div>
+							{/* Image - Taller */}
+							<div className="relative w-full aspect-[3/4] overflow-hidden rounded-3xl mb-5 transition-transform duration-300 group-hover:scale-[1.01]">
+								<img
+									src={chapter.image}
+									alt={chapter.alt}
+									className="w-full h-full object-cover"
+									loading="lazy"
+								/>
+							</div>
+							
+							{/* Content */}
+							<div>
 							{/* Desktop Heading (hidden on mobile) */}
-							<h3
+								<h3
 								className="hidden md:block text-black font-normal mb-2"
-								style={{ 
-									fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-									fontSize: 'clamp(20px, 1.5vw, 22px)',
-									letterSpacing: '0.002em',
-									fontWeight: 500
-								}}
-							>
-								{chapter.title}.
-							</h3>
-							<p
-								className="text-gray-500 leading-relaxed font-light"
-								style={{
-									fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+									style={{ 
+										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+										fontSize: 'clamp(20px, 1.5vw, 22px)',
+										letterSpacing: '0.002em',
+										fontWeight: 500
+									}}
+								>
+									{chapter.title}.
+								</h3>
+								<p
+									className="text-gray-500 leading-relaxed font-light"
+									style={{
+										fontFamily: 'General Sans, Inter, system-ui, sans-serif',
 									fontSize: 'clamp(15px, 0.95vw, 16px)',
-									fontWeight: 300,
+										fontWeight: 300,
 									lineHeight: '1.7'
-								}}
-							>
-								{chapter.description}
-							</p>
+									}}
+								>
+									{chapter.description}
+								</p>
+							</div>
 						</div>
-					</div>
-				))}
+					))}
 				</div>
 				
 				<div className="h-16 sm:h-20 lg:h-24" />
@@ -1622,9 +1622,9 @@ const HomePage = () => {
 					<div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-[#DD2C00] via-[#F26722] to-[#D81A00]" />
 				</div>
 				
-			{/* Mobile Layout: Text floating above, image anchored to bottom */}
-			<div className="lg:hidden min-h-screen relative">
-				{/* Text Section — centered, no inline button on mobile */}
+				{/* Mobile Layout: Text floating above, image anchored to bottom */}
+				<div className="lg:hidden min-h-screen relative">
+					{/* Text Section — centered, no inline button on mobile */}
 				<div className="absolute top-0 left-0 right-0 z-10 px-6 sm:px-8 pt-32 sm:pt-40 md:pt-48">
   <div className="max-w-md mx-auto text-center" style={{ filter: `brightness(${Math.min(1.0, 0.3 + ctaGlow)})` }}>
     <h2
@@ -1685,15 +1685,13 @@ const HomePage = () => {
 			{/* Hidden model-viewer for AR launch */}
 			<div className="sr-only" aria-hidden>
 				<model-viewer id="hb-ar-table"
-					src="/images/Horn_Bill.glb"
+					src="/images/scene.glb"
 					ios-src="/images/model.usdz"
 					alt="Hornbill SmartPod 3D Model"
 					ar
 					camera-controls
 					ar-modes="scene-viewer quick-look webxr"
-					style={{ width: 0, height: 0 }}
-					model-viewer-position="0 -0.1 0"
-					model-viewer-orbit="0 0 0">
+					style={{ width: 0, height: 0 }}>
 				</model-viewer>
 			</div>
 		</>
