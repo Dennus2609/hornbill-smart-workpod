@@ -1691,6 +1691,8 @@ const HomePage = () => {
 					ar
 					camera-controls
 					ar-modes="scene-viewer quick-look webxr"
+					ar-scale="auto"
+					ar-placement="floor"
 					style={{ width: 0, height: 0 }}>
 				</model-viewer>
 			</div>
