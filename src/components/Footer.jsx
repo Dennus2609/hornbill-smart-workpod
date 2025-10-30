@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { ArrowRight, Phone, Mail } from 'lucide-react';
+import { ArrowRight, Phone, Mail, MapPin } from 'lucide-react';
 
 const Footer = () => {
   const location = useLocation();
@@ -35,8 +35,8 @@ const Footer = () => {
 
         {/* Content Grid - more breathing room */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
-          {/* Left: CTA - lighter weight */}
-          <div className="lg:col-span-6">
+          {/* Left: CTA - lighter weight (hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-6">
             <h3 
               className="text-white text-lg sm:text-xl font-normal mb-4" 
               style={{ 
@@ -117,6 +117,12 @@ const Footer = () => {
                     <Mail className="w-3.5 h-3.5 text-gray-600 mt-0.5" strokeWidth={1.5} />
                     <span className="break-words">connect@hornbillinc.com</span>
                   </a>
+                  <div className="inline-flex items-start gap-2 text-white text-sm font-light" style={{ fontWeight: 300 }}>
+                    <MapPin className="w-3.5 h-3.5 text-gray-600 mt-0.5 flex-shrink-0" strokeWidth={1.5} />
+                    <span>
+                      Address: Jebel Ali Building Warehouse no#2, Al Quoz 3, Near Mashreq Bank – Sheikh Zayed Rd – Dubai
+                    </span>
+                  </div>
                 </div>
                 {/* Vertical divider */}
                 <div className="hidden sm:block absolute top-0 -right-8 bottom-0 w-px bg-gray-800" />

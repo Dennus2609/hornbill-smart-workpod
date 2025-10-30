@@ -144,7 +144,6 @@ const HomePage = () => {
 		},
 		{
 			badge: '3',
-			title: 'Elegance',
 		description: 'Designed in Italy for effortless elegance. Minimal, clutter-free, and wireless, the Hornbill SmartPod fits naturally into any space—home, office, or even a coffee shop. Sound-absorbing acoustic fabric and thoughtful details make it as beautiful as it is functional.',
 		image: '/images/elegance_photo.png',
 			alt: 'Minimal workspace with acoustic panels and elegant design'
@@ -163,6 +162,8 @@ const HomePage = () => {
 	const [isChaptersVisible, setIsChaptersVisible] = useState(false);
 	const [isARVisible, setIsARVisible] = useState(false);
 	
+
+	
 	// Observe when the chapters section is in view to change header text color
   useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -178,6 +179,7 @@ const HomePage = () => {
 
 	// Observe when the AR section is in view to change header text color
 	const arSectionRef = useRef(null);
+	const faqSectionRef = useRef(null);
 	const finalCtaRef = useRef(null);
 	const mobileStickyBtnRef = useRef(null);
 	const mobileStickyWrapRef = useRef(null);
@@ -279,17 +281,18 @@ const HomePage = () => {
 
 	// Page 8: vertical portrait carousel (like page 5, portrait images)
 	const verticalSlides = [
-		{ src: '/images/clean no cables.jpg', alt: 'Sit-Stand Flexibility', label: 'Sit-Stand Flexibility', title: 'Effortless sit-stand transitions for optimal comfort.' },
+		{ src: '/images/slide-1-Sit-stand-desk.png', alt: 'Sit-Stand Flexibility', label: 'Sit-Stand Flexibility', title: 'Effortless sit-stand transitions for optimal comfort.' },
 		{ src: '/images/ChatGPT Image Aug 15, 2025, 02_03_12 PM.png', alt: 'One-touch panel', label: 'One-Touch Control', title: 'One-touch panel adjusts height, lighting, and power instantly and safely.' },
 		{ src: '/images/multi device conttectivity.png', alt: 'Multi-Device Connectivity', label: 'Multi-Device', title: 'Seamlessly link phones, tablets, and laptops in one workspace.' },
 		{ src: '/images/lighting_vertical_photo.png', alt: 'Adjustable Lighting', label: 'Adjustable Lighting', title: 'Customizable brightness levels for any task.' },
 		{ src: '/images/swivel_monitor_vertical.png', alt: 'Swivel monitor arm', label: 'Monitor Arm', title: 'Swivel monitor arm positions screens for perfect viewing and posture.', dark: true },
 		{ src: '/images/Generated Image October 15, 2025 - 2_37PM.png', alt: 'Private Connectivity', label: 'Private Connectivity', title: 'Portable SIM-enabled communicator for secure data access.' },
 		{ src: '/images/storage units .png', alt: 'Integrated Storage', label: 'Integrated Storage', title: 'Seamlessly built-in drawers keep essentials hidden.' },
-		{ src: '/images/wireless phone charger.png', alt: 'Wireless Charging', label: 'Wireless Charging', title: 'Integrated Qi pad powers your phone wirelessly' },
+		{ src: '/images/wireless phone charger.png', alt: 'Wireless Charging', label: 'Wireless Charging', title: 'Everything is wireless — Qi pad, keyboard and mouse.' },
 		{ src: '/images/app controlled.png', alt: 'App Controlled', label: 'App Controlled', title: 'Adjust height, lighting, and power from the Hornbill app.' },
+		{ src: '/images/ChatGPT Image Oct 30, 2025 at 08_47_06 AM.png', alt: 'Power Ports', label: 'Power Ports', title: 'Equipped with multiple ports to power all your devices.' },
 		{ src: '/images/ChatGPT Image Aug 15, 2025, 01_55_50 PM.png', alt: 'Recessed Cup Holder', label: 'Recessed Cup Holder', title: 'Recessed holder keeps drinks steady and surfaces safe.' },
-		{ src: '/images/laptop holder .png', alt: 'Vertical Laptop Stand', label: 'Vertical Laptop Stand', title: 'Dedicated storage space for your laptop' }
+		{ src: '/images/laptop holder .png', alt: 'Accessories', label: 'Accessories', title: 'Dedicated laptop storage and essential accessories.' }
 	]
 	const verticalContainerRef = useRef(null)
 	const [activeVerticalIndex, setActiveVerticalIndex] = useState(0)
@@ -926,78 +929,48 @@ const HomePage = () => {
 		return () => { window.removeEventListener('scroll', onScroll); if (rafId) cancelAnimationFrame(rafId) }
 	}, [reduceMotion])
 
-	// Mobile sticky button: widen until CTA fills screen; push while CTA visible; hide after CTA
+	// Mobile sticky button: simplified - just fade out when FAQ is reached
 	useEffect(() => {
-		const wrap = mobileStickyWrapRef.current
-		const btn  = mobileStickyBtnRef.current
-		const cta  = finalCtaRef.current
-		if (!wrap || !btn || !cta) return
-	  
-		// keep bottom fixed in CSS; we'll only use transform to push
-		wrap.style.willChange = 'transform'
-	  
-		const BASE = 220        // start width
-		const MAX  = 440        // max width
-		const GROW_ZONE = 1.0   // how much of the viewport height above CTA we start growing (1.0 = full viewport)
-	  
-		let ctaInView = false
-		// Observe CTA so we only push while it's visible
-		const io = new IntersectionObserver(
-		  ([entry]) => { ctaInView = entry.isIntersecting; },
-		  { threshold: 0 } // any intersection
-		)
-		io.observe(cta)
-	  
-		let raf = 0
-		const onScroll = () => {
-		  if (raf) cancelAnimationFrame(raf)
-		  raf = requestAnimationFrame(() => {
+		const btn = mobileStickyBtnRef.current
+		const faq = faqSectionRef.current
+		if (!btn || !faq) return
+		
+		const BASE = 220
+		const MAX = 440
+
+		const handleScroll = () => {
+			if (window.innerWidth >= 1024) return
+
+			const rect = faq.getBoundingClientRect()
 			const viewportH = window.innerHeight || 1
-			const rect = cta.getBoundingClientRect()
-	  
-			// Width grow only when CTA approaches the top (0) from below
-			// progress 0..1 when rect.top goes from viewportH * GROW_ZONE down to 0
-			const growStart = viewportH * GROW_ZONE
-			const growProgress = Math.max(
-			  0,
-			  Math.min(1, (growStart - Math.max(0, rect.top)) / Math.max(1, growStart))
-			)
-			const targetWidth = Math.min(
-			  BASE + (MAX - BASE) * growProgress,
-			  Math.round(window.innerWidth * 0.96)
-			)
+
+			// Width grows as FAQ approaches the top (starts when FAQ enters viewport)
+			const growStart = viewportH
+			const growProgress = Math.max(0, Math.min(1, (growStart - Math.max(0, rect.top)) / growStart))
+			const targetWidth = Math.min(BASE + (MAX - BASE) * growProgress, Math.round(window.innerWidth * 0.96))
 			btn.style.width = `${targetWidth}px`
-	  
-			// Push up ONLY while CTA is on screen, using transform (no bottom changes)
-			if (ctaInView) {
-			  const overshoot = Math.max(0, viewportH - rect.bottom) // 0..viewportH
-			  wrap.style.transform = `translate3d(0, ${-overshoot}px, 0)`
-			  btn.style.opacity = '1'
-			  btn.style.pointerEvents = 'auto'
-			} else {
-			  wrap.style.transform = 'translate3d(0, 0, 0)'
-			  // If CTA has been passed (fully above), hide the sticky
-			  if (rect.bottom <= 0) {
-				btn.style.opacity = '0'
-				btn.style.pointerEvents = 'none'
-			  } else {
-				btn.style.opacity = '1'
-				btn.style.pointerEvents = 'auto'
-			  }
+
+			// Fade out starting right as FAQ begins (top < viewport)
+			let opacity = 1
+			if (rect.top < viewportH) {
+				// Linear fade from top entering (viewportH) to 60% into viewport
+				const fadeRange = Math.max(1, viewportH * 0.6)
+				const progressed = Math.min(fadeRange, Math.max(0, viewportH - rect.top))
+				opacity = Math.max(0, 1 - progressed / fadeRange)
 			}
-		  })
+			if (rect.bottom <= 0) opacity = 0
+			btn.style.opacity = `${opacity}`
+			btn.style.pointerEvents = opacity > 0.05 ? 'auto' : 'none'
 		}
-	  
-		onScroll()
-		window.addEventListener('scroll', onScroll, { passive: true })
-		window.addEventListener('resize', onScroll)
+
+		handleScroll()
+		window.addEventListener('scroll', handleScroll, { passive: true })
+		window.addEventListener('resize', handleScroll, { passive: true })
 		return () => {
-		  io.disconnect()
-		  window.removeEventListener('scroll', onScroll)
-		  window.removeEventListener('resize', onScroll)
-		  if (raf) cancelAnimationFrame(raf)
+			window.removeEventListener('scroll', handleScroll)
+			window.removeEventListener('resize', handleScroll)
 		}
-	  }, [])
+	}, [])
 
 	// Mobile CTA spotlight/brightness as you scroll into the final CTA (after FAQ)
 	useEffect(() => {
@@ -1077,10 +1050,10 @@ const HomePage = () => {
       className="
         pointer-events-auto bg-white text-black text-[14px] leading-none
         font-medium px-10 py-4 rounded-[6px] text-center shadow-md active:scale-95
-        transition-transform
+        transition-all duration-500
       "
       style={{
-        width: '240px', // JS grows this while scrolling through Final CTA
+        width: '240px',
         mixBlendMode: 'difference',
         WebkitMixBlendMode: 'difference',
         isolation: 'isolate',
@@ -1145,13 +1118,7 @@ const HomePage = () => {
 									className="inline-block mr-2 transition-all duration-700 ease-out"
 									style={{
 										opacity: getWordOpacity(i),
-										transform: `translateY(${getWordOpacity(i) === 1 ? '0' : '4px'})`,
-										backgroundImage: i >= finalLineStartIndex ? 'linear-gradient(90deg, #FFFFFF 0%, #FFD7B0 50%, #FFFFFF 100%)' : undefined,
-										WebkitBackgroundClip: i >= finalLineStartIndex ? 'text' : undefined,
-										backgroundClip: i >= finalLineStartIndex ? 'text' : undefined,
-										color: i >= finalLineStartIndex ? 'transparent' : undefined,
-										fontFamily: i >= finalLineStartIndex ? 'Lora, Georgia, serif' : 'General Sans, Inter, system-ui, sans-serif',
-										fontWeight: i >= finalLineStartIndex ? 600 : 500
+									transform: `translateY(${getWordOpacity(i) === 1 ? '0' : '4px'})`
 									}}
 								>
 									{word}
@@ -1205,7 +1172,6 @@ const HomePage = () => {
 				<div className="text-center mb-16 sm:mb-20 lg:mb-24">
 					{/* Badge like Spotlight section */}
 					<div className="inline-flex items-center gap-2 mb-5">
-						<span className="w-8 h-8 rounded-full bg-black/10 flex items-center justify-center text-base font-medium text-black">2</span>
 						<span className="text-base font-medium text-black" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Foundation</span>
 					</div>
 					
@@ -1240,7 +1206,7 @@ const HomePage = () => {
 					{chapters.map((chapter) => (
 						<div key={chapter.badge} className="group">
 						{/* Mobile Heading (shows only on mobile) */}
-						<h3
+					<h3
 							className="md:hidden text-black font-normal mb-4"
 							style={{ 
 								fontFamily: 'General Sans, Inter, system-ui, sans-serif',
@@ -1249,7 +1215,10 @@ const HomePage = () => {
 								fontWeight: 500
 							}}
 						>
-							{chapter.title}.
+						<span className="inline-flex items-center gap-2">
+							<span className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center text-xs font-medium text-black">{chapter.badge}</span>
+							<span>{chapter.title}.</span>
+						</span>
 						</h3>
 						
 							{/* Image - Taller */}
@@ -1312,7 +1281,7 @@ const HomePage = () => {
 				</div>
 				<div className="relative w-full px-6 sm:px-10 lg:px-16 pt-[9vh] pb-10">
 						<div className="max-w-5xl mx-auto text-center mb-8" style={{ transform: reduceMotion ? 'none' : `translateY(${spotlightParallax * -0.5}px)`, transition: 'transform 80ms linear' }}>
-						<div className="inline-flex items-center gap-2 mb-5"><span className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-base font-medium">3</span><span className="text-base font-medium" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Spotlight</span></div>
+						<div className="inline-flex items-center gap-2 mb-5"><span className="text-lg md:text-xl font-medium" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>Spotlight</span></div>
 						<h2 className="font-medium leading-tight mb-3" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(28px, 4vw, 56px)', letterSpacing: '-0.01em' }}>The future of work, in one pod.</h2>
 						<p className="opacity-90" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(14px, 1.2vw, 18px)' }}>See how Hornbill SmartPod brings productivity, health, and design together</p>
 							{/* Progress rail */}
@@ -1351,10 +1320,9 @@ const HomePage = () => {
 				<div className="px-6 sm:px-10 lg:px-16 pt-14 lg:pt-20 max-w-[1400px] mx-auto">
 					<div ref={verticalHeaderRef} className="flex items-start justify-between gap-6 relative">
 						<div className="max-w-3xl pr-6">
-							<div className="flex items-center gap-3 mb-5">
-								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">4</span>
-								<span className="text-lg">Features</span>
-							</div>
+						<div className="flex items-center gap-3 mb-5">
+							<span className="text-xl md:text-2xl font-medium">Features</span>
+						</div>
 							<h2 className="text-white font-medium leading-[1.05] mb-4" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(34px, 4vw, 48px)', letterSpacing: '-0.01em' }}>The Power of an Office in the Size of a Box.</h2>
 							<p ref={verticalParagraphRef} className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl">Every detail engineered for peak performance — from wireless charging to intelligent lighting, designed to elevate your work experience.</p>
 						</div>
@@ -1403,10 +1371,9 @@ const HomePage = () => {
 
 						{/* Right: copy and list */}
 						<div ref={specRightRef} className="lg:col-span-6 order-1 lg:order-2">
-							<div className="flex items-center gap-3 mb-5" data-spec-reveal>
-								<span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-medium">5</span>
-								<span className="text-lg">Specification</span>
-							</div>
+						<div className="flex items-center gap-3 mb-5" data-spec-reveal>
+							<span className="text-xl md:text-2xl font-medium text-white/75">Specification</span>
+						</div>
 							<div className="space-y-4 sm:space-y-5">
 								<h2 className="text-white font-medium leading-[1.05]" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(34px, 4vw, 48px)', letterSpacing: '-0.01em' }} data-spec-reveal>Everything you need to get your workspace ready.</h2>
 								<p className="text-white/70 text-base sm:text-lg md:text-xl max-w-2xl" data-spec-reveal>Includes 15+ features that support your productivity and comfort. Mobile control, wireless charging, workspace lighting, and more.</p>
@@ -1470,10 +1437,9 @@ const HomePage = () => {
 						<div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center p-5 sm:p-6 lg:p-8">
 							{/* Left copy */}
 							<div className="lg:col-span-7 order-1 lg:order-1" data-ar-copy>
-								<div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-									<span className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/10 flex items-center justify-center text-xs sm:text-sm font-medium">6</span>
-									<span className="text-sm sm:text-base md:text-lg text-white/90" data-ar-reveal>AR Viewable</span>
-								</div>
+							<div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+								<span className="text-base sm:text-lg md:text-xl font-medium text-white/85" data-ar-reveal>AR Viewable</span>
+							</div>
 								<h2 className="font-medium leading-[1.08] mb-4 sm:mb-5 text-white" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif', fontSize: 'clamp(22px,2.6vw,34px)', letterSpacing: '-0.01em' }} data-ar-reveal>
 									Experience the Hornbill SmartPod
 									<br className="hidden md:block"/> in AR, right where you are.
@@ -1497,7 +1463,7 @@ const HomePage = () => {
 			</section>
 
 			{/* Page 11: FAQ */}
-			<section className="relative w-full text-white" style={{ background: 'linear-gradient(135deg, #A1080E 0%, #E44008 41%, #000000 100%)' }}>
+			<section ref={faqSectionRef} className="relative w-full text-white" style={{ background: 'linear-gradient(135deg, #A1080E 0%, #E44008 41%, #000000 100%)' }}>
 				<div className="px-6 sm:px-10 lg:px-16 py-16 sm:py-20 lg:py-24 max-w-[1400px] mx-auto relative">
 					<div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 						{/* Left heading and intro */}
@@ -1644,6 +1610,11 @@ const HomePage = () => {
     >
       Your all-in-one smart workspace.
     </p>
+			    <div className="mt-3 sm:mt-4 flex justify-center">
+			      <div className="gemini-border-container inline-block">
+			        <Link to="/book" className="relative text-white px-5 sm:px-6 py-3 rounded-full font-medium transition-all duration-300 bg-black z-10 inline-flex items-center gap-2">Book a demo</Link>
+			      </div>
+			    </div>
   </div>
 </div>
 					
