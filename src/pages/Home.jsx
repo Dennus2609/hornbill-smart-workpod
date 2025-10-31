@@ -1093,7 +1093,7 @@ const HomePage = () => {
           <div className="absolute inset-0 flex items-center justify-end pr-8 lg:pr-16 xl:pr-20">
             <div className="max-w-2xl text-right">
 						<h2 className="text-white text-2xl lg:text-3xl xl:text-4xl font-medium leading-tight mb-3 sm:mb-4 md:mb-5 tracking-tight" style={{ fontFamily: 'General Sans, Inter, system-ui, sans-serif' }}>
-							<span className="inline-block" style={{ animation: reduceMotion ? 'none' : (isVideoLoaded ? 'slideInFromRight 1s ease-out 0.5s both' : 'none') }}>Your All-in-One<br/>Smart Workspace</span>
+							<span className="inline-block" style={{ animation: reduceMotion ? 'none' : (isVideoLoaded ? 'slideInFromRight 1s ease-out 0.5s both' : 'none') }}>Work from home<br/>-Reimagined</span>
               </h2>
               <div className="relative inline-block" style={{ animation: reduceMotion ? 'none' : (isVideoLoaded ? 'slideInFromRight 1s ease-out 0.5s both' : 'none') }}>
 							<div className="gemini-border-container">

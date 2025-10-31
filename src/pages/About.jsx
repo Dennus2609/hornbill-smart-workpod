@@ -673,32 +673,48 @@ const AboutPage = () => {
 				{/* Subtle top glow */}
 				<div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
 				
-				<div className="px-6 sm:px-10 lg:px-16 max-w-4xl mx-auto text-center">
-					<div className="inline-flex items-center gap-2 mb-6 group" data-reveal>
-						<span className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-sm font-medium transition-all duration-300 group-hover:bg-black/10 group-hover:scale-110">4</span>
-						<span className="text-base text-black/60 transition-colors duration-300 group-hover:text-black/80">Our Vision</span>
+				<div className="px-6 sm:px-10 lg:px-16 max-w-6xl mx-auto">
+					<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+						{/* Text content */}
+						<div className="lg:col-span-7 text-center lg:text-left">
+							<div className="inline-flex items-center gap-2 mb-6 group" data-reveal>
+								<span className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-sm font-medium transition-all duration-300 group-hover:bg-black/10 group-hover:scale-110">4</span>
+								<span className="text-base text-black/60 transition-colors duration-300 group-hover:text-black/80">Our Vision</span>
+							</div>
+							<h2 
+								className="font-medium leading-tight mb-8 transition-colors duration-300 hover:text-black/80"
+								style={{ 
+									fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+									fontSize: 'clamp(32px, 4vw, 48px)',
+									letterSpacing: '-0.01em'
+								}}
+								data-reveal
+							>
+								More than just a workspace
+							</h2>
+							<p 
+								className="text-black/70 leading-relaxed transition-colors duration-300 hover:text-black/85"
+								style={{ 
+									fontFamily: 'General Sans, Inter, system-ui, sans-serif',
+									fontSize: 'clamp(16px, 1.2vw, 20px)'
+								}}
+								data-reveal
+							>
+								Hornbill Smart Workpod is more than just a workspace—it's a step toward redefining how people live, work, and balance their worlds. We envision a future where anyone, anywhere, can enjoy a dedicated, smart, and inspiring environment that makes work effortless and fulfilling.
+							</p>
+						</div>
+						{/* Image - maintains 9:16 aspect ratio */}
+						<div className="lg:col-span-5 flex justify-center lg:justify-end" data-reveal>
+							<div className="w-full max-w-[200px] sm:max-w-[220px] lg:max-w-[200px] xl:max-w-[240px] aspect-[9/16] rounded-2xl overflow-hidden shadow-lg">
+								<img 
+									src="/images/Horn_Bill_LastFrame.png" 
+									alt="Hornbill Vision" 
+									className="w-full h-full object-cover"
+									loading="lazy"
+								/>
+							</div>
+						</div>
 					</div>
-					<h2 
-						className="font-medium leading-tight mb-8 transition-colors duration-300 hover:text-black/80"
-						style={{ 
-							fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-							fontSize: 'clamp(32px, 4vw, 52px)',
-							letterSpacing: '-0.01em'
-						}}
-						data-reveal
-					>
-						More than just a workspace
-					</h2>
-					<p 
-						className="text-black/70 leading-relaxed max-w-3xl mx-auto transition-colors duration-300 hover:text-black/85"
-						style={{ 
-							fontFamily: 'General Sans, Inter, system-ui, sans-serif',
-							fontSize: 'clamp(18px, 1.4vw, 22px)'
-						}}
-						data-reveal
-					>
-						Hornbill Smart Workpod is more than just a workspace—it's a step toward redefining how people live, work, and balance their worlds. We envision a future where anyone, anywhere, can enjoy a dedicated, smart, and inspiring environment that makes work effortless and fulfilling.
-					</p>
 				</div>
 			</section>
 
