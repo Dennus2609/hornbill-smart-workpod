@@ -1,0 +1,13 @@
+Hi [Client Name],
+
+To connect your custom domain to the website, I need:
+
+1. Domain name: _______________
+2. Domain registrar: _______________ (e.g., GoDaddy, Namecheap)
+3. DNS access: Please make the DNS changes yourself (I'll provide you with the exact DNS settings to add)
+4. Preferred setup: Both www.yourdomain.com and yourdomain.com (we'll set up both)
+
+Once I have the domain name and registrar information, I'll configure everything in Netlify and provide you with the exact DNS settings you need to add at your registrar.
+
+Thanks!
+

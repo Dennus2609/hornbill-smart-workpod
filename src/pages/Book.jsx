@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
 const BookPage = () => {
+  const GOOGLE_SHEETS_ENDPOINT = import.meta.env.VITE_BOOKING_ENDPOINT
   const [currentSlide, setCurrentSlide] = useState(0)
   const [formData, setFormData] = useState({
     name: '',
@@ -68,12 +69,51 @@ const BookPage = () => {
     setIsLoading(true)
     try {
       const formattedMobile = formatUaeMobile(formData.mobile)
-      const body = new URLSearchParams({ 'form-name': 'booking', name: formData.name, email: formData.email, mobile: formattedMobile }).toString()
-      await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body
-      })
+      let submissionSucceeded = false
+
+      // 1) Preferred: send to Google Sheets Apps Script endpoint (if configured)
+      if (GOOGLE_SHEETS_ENDPOINT) {
+        try {
+          const response = await fetch(GOOGLE_SHEETS_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: formData.name.trim(),
+              email: formData.email.trim(),
+              mobile: formattedMobile
+            })
+          })
+          if (response.ok) {
+            submissionSucceeded = true
+          }
+        } catch (err) {
+          // fall back to Netlify Forms
+          console.warn('Google Sheets endpoint failed, falling back to Netlify Forms.', err)
+        }
+      }
+
+      // 2) Fallback: Netlify Forms capture (keeps a backup log in Netlify)
+      if (!submissionSucceeded) {
+        const body = new URLSearchParams({
+          'form-name': 'booking',
+          name: formData.name,
+          email: formData.email,
+          mobile: formattedMobile
+        }).toString()
+        try {
+          const netlifyResp = await fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body
+          })
+          if (netlifyResp.ok) {
+            submissionSucceeded = true
+          }
+        } catch (err) {
+          console.error('Netlify Forms submission failed.', err)
+        }
+      }
+
       setIsSubmitted(true)
     } catch (_) {
       setIsSubmitted(true)
