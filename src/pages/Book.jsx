@@ -102,8 +102,19 @@ const BookPage = () => {
 
           // Treat any 2xx as success (Apps Script often returns plain text)
           if (response.ok) {
-            submissionSucceeded = true
-            console.log('✅ Submitted to Google Sheets')
+            let isSuccess = false
+            try {
+              const json = JSON.parse(responseText || '{}')
+              isSuccess = json.success !== false
+            } catch {
+              isSuccess = (responseText || '').toLowerCase().includes('ok')
+            }
+            if (isSuccess) {
+              submissionSucceeded = true
+              console.log('✅ Submitted to Google Sheets')
+            } else {
+              console.warn('Google Sheets responded but did not confirm success, will fall back to Netlify Forms.')
+            }
           }
         } catch (err) {
           // fall back to Netlify Forms
