@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom'
 
 const BookPage = () => {
   const GOOGLE_SHEETS_ENDPOINT = import.meta.env.VITE_BOOKING_ENDPOINT
+  
+  // Debug: Log environment variable on component mount
+  useEffect(() => {
+    console.log('🔍 Environment check:')
+    console.log('  VITE_BOOKING_ENDPOINT:', GOOGLE_SHEETS_ENDPOINT || 'NOT SET')
+    console.log('  All env vars:', import.meta.env)
+  }, [])
+  
   const [currentSlide, setCurrentSlide] = useState(0)
   const [formData, setFormData] = useState({
     name: '',
@@ -74,22 +82,35 @@ const BookPage = () => {
       // 1) Preferred: send to Google Sheets Apps Script endpoint (if configured)
       if (GOOGLE_SHEETS_ENDPOINT) {
         try {
+          console.log('Submitting to Google Sheets:', GOOGLE_SHEETS_ENDPOINT)
+          // Use application/x-www-form-urlencoded to avoid CORS preflight with Apps Script
+          const urlEncodedBody = new URLSearchParams({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            mobile: formattedMobile
+          }).toString()
+
           const response = await fetch(GOOGLE_SHEETS_ENDPOINT, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              name: formData.name.trim(),
-              email: formData.email.trim(),
-              mobile: formattedMobile
-            })
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: urlEncodedBody
           })
+
+          console.log('Google Sheets response status:', response.status, response.statusText)
+          const responseText = await response.text().catch(() => '')
+          if (responseText) console.log('Google Sheets response:', responseText)
+
+          // Treat any 2xx as success (Apps Script often returns plain text)
           if (response.ok) {
             submissionSucceeded = true
+            console.log('✅ Submitted to Google Sheets')
           }
         } catch (err) {
           // fall back to Netlify Forms
-          console.warn('Google Sheets endpoint failed, falling back to Netlify Forms.', err)
+          console.error('❌ Google Sheets endpoint failed, falling back to Netlify Forms.', err)
         }
+      } else {
+        console.log('⚠️ No Google Sheets endpoint configured, using Netlify Forms only')
       }
 
       // 2) Fallback: Netlify Forms capture (keeps a backup log in Netlify)
